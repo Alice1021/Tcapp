@@ -48,7 +48,7 @@
 	var ReactDOM=__webpack_require__(36);
 	var MainFooter=__webpack_require__(182);
 	var Home=__webpack_require__(183);
-	var HomeHeader=__webpack_require__(185);
+	var HomeHeader=__webpack_require__(186);
 	var Main=React.createClass({displayName: "Main",
 		render:function(){
 			return(
@@ -21834,16 +21834,16 @@
 			switch(currentIndex){
 				case 0:
 				    var Home=__webpack_require__(183);
-				    var HomeHeader=__webpack_require__(185);
+				    var HomeHeader=__webpack_require__(186);
 				    ReactDOM.unmountComponentAtNode(header);
 					ReactDOM.render(React.createElement(HomeHeader, null),header);
 				    ReactDOM.unmountComponentAtNode(content);
 					ReactDOM.render(React.createElement(Home, null),content);
-					$("#header").show();
+					$("#header").hide();
 					break;
 				case 1:
-					var Kind=__webpack_require__(189);
-					var KindHeader=__webpack_require__(190);
+					var Kind=__webpack_require__(187);
+					var KindHeader=__webpack_require__(189);
 				    ReactDOM.unmountComponentAtNode(header);
 					ReactDOM.render(React.createElement(KindHeader, null),header);
 					ReactDOM.unmountComponentAtNode(content);
@@ -21855,8 +21855,8 @@
 						that.makeText("请先登录",1000);
 						return false;
 					}else if(JSON.parse(localStorage.getItem('users'))){
-						var Cart=__webpack_require__(193);
-						var CartHeader=__webpack_require__(195)
+						var Cart=__webpack_require__(192);
+						var CartHeader=__webpack_require__(194)
 					    ReactDOM.unmountComponentAtNode(header);
 						ReactDOM.render(React.createElement(CartHeader, null),header);
 						ReactDOM.unmountComponentAtNode(content);
@@ -21866,8 +21866,8 @@
 					
 					break;
 				case 3:
-					var User=__webpack_require__(197);
-					var UserHeader=__webpack_require__(206);
+					var User=__webpack_require__(196);
+					var UserHeader=__webpack_require__(205);
 				    ReactDOM.unmountComponentAtNode(header);
 					ReactDOM.render(React.createElement(UserHeader, null),header);
 					ReactDOM.unmountComponentAtNode(content);
@@ -21938,6 +21938,34 @@
 		render:function(){
 			return(
 				React.createElement("div", {className: "homeContent"}, 
+					React.createElement("div", {className: "homeHeader"}, 
+						React.createElement("div", {className: "left"}, 
+							React.createElement("div", {className: "map"}, 
+								React.createElement("div", {className: "left"}, 
+									React.createElement("img", {src: "img/icon_location.png"})
+								), 
+								React.createElement("div", {className: "right"}, 
+									"郑州市"
+								)
+							)
+						), 
+						React.createElement("div", {className: "center", id: "goSearch"}, 
+							React.createElement("div", {className: "search"}, 
+								React.createElement("img", {src: "img/icon_search.png"})
+							), 
+							React.createElement("div", {className: "input"}, 
+								React.createElement("input", {type: "text", placeholder: "搜索天采商品与店铺"})
+							), 
+							React.createElement("div", {className: "select"}, 
+								React.createElement("img", {src: "img/select.png"})
+							)
+						), 
+						React.createElement("div", {className: "right", id: "goNewsCenter", "data-type": "home"}, 
+							React.createElement("div", {className: "img"}, 
+								React.createElement("img", {src: "img/icon_messages.png"})
+							)
+						)
+					), 
 				    React.createElement("div", {className: "swiper-container", id: "homeSwiper"}, 
 					    React.createElement("div", {className: "swiper-wrapper home1_wrapper"}, 
 					        React.createElement("div", {className: "swiper-slide home1_slide"}, 
@@ -22046,13 +22074,8 @@
 						    React.createElement("div", {className: "swiper-wrapper notice_wrapper"}, 
 						        React.createElement("div", {className: "swiper-slide notice_slide"}, 
 						        	"APP版本发布公告"
-								), 
-						        React.createElement("div", {className: "swiper-slide notice_slide"}, 
-						        	"1111111"
-						        ), 
-						        React.createElement("div", {className: "swiper-slide notice_slide"}, 
-						        	"22222222"
-						        )
+								)
+						        
 						    )
 						    
 						), 
@@ -22420,6 +22443,63 @@
 		},
 		componentDidMount:function(){
 			var that=this;
+	//=====头部搜索栏的效果(上下滑动呈现不同的效果)
+			function getTopDistance() {
+				return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+			};
+			document.addEventListener("touchmove",function(){
+				
+				var scrollTop = $("#content").scrollTop();
+				console.log(scrollTop);
+				if(scrollTop>114){
+					$(".homeHeader").css("background","#f8f8f8");
+					$(".map .left img").attr("src","img/home_dingwei1.png");
+					$(".map .right").css("color","#2b2b2b");
+					$(".homeHeader .center").css("background","#eeeded");
+					$(".homeHeader .center .search img").attr("src","img/home_search1.png");
+					$(".homeHeader .right img").attr("src","img/home_news1.png");
+				}else if(scrollTop<114){
+					$(".homeHeader").css("background","rgba(255, 255, 255, 0)");
+					$(".map .left img").attr("src","img/icon_location.png");
+					$(".map .right").css("color","#fff");
+					$(".homeHeader .center").css("background","rgba(255, 245, 247, 0.6)");
+					$(".homeHeader .center .search img").attr("src","img/icon_search.png");
+					$(".homeHeader .right img").attr("src","img/icon_messages.png");
+				}
+	//			if(scrollTop>40){
+	//				$(".goodsDetail_introductMain").css("display","block");
+	//			}else{
+	//				$(".goodsDetail_introductMain").css("display","none");
+	//			}
+			});
+	//=====点击搜索框		
+			$("#goSearch").on("click",function(){
+				var Search=__webpack_require__(184);
+				var SearchHeader=__webpack_require__(258);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Search, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(SearchHeader, {type: "home"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			});
+	//==========删除小按钮,被隐藏了
+			$(".select").on("click",function(){
+				console.log("2222222")
+				$("")
+			});
+	//==========点击消息图标,去消息中心		
+			$("#goNewsCenter").click(function(){
+				var type3=$(this).attr("data-type")
+				var NewsCenter=__webpack_require__(190);
+				var NewsCenterHeader=__webpack_require__(191);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(NewsCenter, {type3: type3}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(NewsCenterHeader, {type3: type3}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			});
 	//=======导航轮播====================		
 			var swiper = new Swiper(".swiper-container",{
 				"pagination":".swiper-pagination",
@@ -22427,19 +22507,23 @@
 				loop:true,
 				autoplayDisableOnInteraction:false
 			});
-	//=========新闻消息轮播=====================		
-			var swiper = new Swiper(".notice-container",{
-				"pagination":".swiper-pagination",
-				direction: 'vertical',
-				autoplay:3000,
-				loop:true,
-				autoplayDisableOnInteraction:false
-			});
+	//=========新闻消息轮播=====================	
+			var a=0;
+			var array=new Array("APP版本发布公告","111","222","333");
+			setInterval(function(){
+			 	var b=$("#noticeSwiper .swiper-wrapper .swiper-slide");
+			 	if(a==array.length-1){
+			 		a=0;
+			 	}else{
+			 		a++;
+			 	}
+			 	b.html(array[a]);
+			},2000);
 	//========通过首页小分类到列表=========================================		
 			$("#toList .ul1 li").click(function(){
 	// 			var type=$(this).attr("data-type");
-				var List=__webpack_require__(184);
-				var ListHeader=__webpack_require__(187);
+				var List=__webpack_require__(185);
+				var ListHeader=__webpack_require__(188);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(List, {list: "list", id: "100"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22450,8 +22534,8 @@
 	//=================点击跳转到详情页==============================================   		
 			$(".toDetail").click(function(){
 				var type=$(this).attr("data-type");
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {type: type}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22464,8 +22548,8 @@
 	//		});	
 			$("#xinwen_center").click(function(){
 				var type=$(this).attr("data-type")
-				var XinWen=__webpack_require__(258);
-				var XinWenHeader=__webpack_require__(259);
+				var XinWen=__webpack_require__(259);
+				var XinWenHeader=__webpack_require__(262);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(XinWen, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22476,8 +22560,8 @@
 	//===============点击更多分类==================================================		
 			$(".more").click(function(){
 	//			var type=$(this).attr("data-type");
-				var List=__webpack_require__(184);
-				var ListHeader=__webpack_require__(187);
+				var List=__webpack_require__(185);
+				var ListHeader=__webpack_require__(188);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(List, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22503,6 +22587,118 @@
 
 /***/ },
 /* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	//var ProList=require("./ProList");
+	var Search=React.createClass({displayName: "Search",
+		getInitialState:function(){
+			return{
+				kindList:"",
+				li_result:"",
+				url_interface:"m.chepc.cn"
+			}
+		},
+		componentWillMount:function(){
+			var that		  = this;
+			var url_interface = that.state.url_interface;//获取接口地址
+			$.ajax({
+				type:"get",
+				url:"http://"+url_interface+"/sopa/goods/search_index",
+				async:true,
+				data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3'},
+				success:function(data){
+					var arr_li   = [];
+					for (var i = 0 ; i < data.search_index.length ; i++) {
+						var arr_span = [];
+						var res      = data.search_index[i];
+					for (var j = 0 ; j < res.length ; j++) {
+							arr_span.push(React.createElement("span", {className: "WZ", "data-id": res[j].id, key: j}, res[j].name));
+						}
+						arr_li.push(React.createElement("li", {key: i}, 
+										arr_span
+									));
+					}
+					that.setState({
+						li_result:arr_li
+					})
+				}
+			});
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "searchContent"}, 
+					React.createElement("div", {className: "hotSearch"}, "热门搜索"), 
+					React.createElement("ul", {className: "hs_main"}, 
+						this.state.li_result
+					), 
+					React.createElement("div", {className: "historySearch"}, "历史搜索"), 
+					React.createElement("ul", {className: "historymain"}, 
+						React.createElement("li", null, 
+							React.createElement("div", {className: "hm_left"}, 
+								React.createElement("div", {className: "hml_img"}, 
+									React.createElement("img", {src: "img/search.png"})
+								)
+							), 
+							React.createElement("div", {className: "hm_right"}, "不干胶")
+						), 
+						React.createElement("li", null, 
+							React.createElement("div", {className: "hm_left"}, 
+								React.createElement("div", {className: "hml_img"}, 
+									React.createElement("img", {src: "img/search.png"})
+								)
+							), 
+							React.createElement("div", {className: "hm_right"}, "不干胶")
+						), 
+						React.createElement("li", null, 
+							React.createElement("div", {className: "hm_left"}, 
+								React.createElement("div", {className: "hml_img"}, 
+									React.createElement("img", {src: "img/search.png"})
+								)
+							), 
+							React.createElement("div", {className: "hm_right"}, "不干胶")
+						), 
+						React.createElement("li", null, 
+							React.createElement("div", {className: "hm_left"}, 
+								React.createElement("div", {className: "hml_img"}, 
+									React.createElement("img", {src: "img/search.png"})
+								)
+							), 
+							React.createElement("div", {className: "hm_right"}, "不干胶")
+						), 
+						React.createElement("li", null, "清除搜索记录")
+					)
+				)
+				
+			)
+		},
+		componentDidUpdate:function(){
+			var that=this;
+			$(".WZ").click(function(){
+				var list=that.props.list;
+				var kind=that.props.kind;
+				var type=that.props.type;
+				var id=$(this).attr("data-id");
+				var List=__webpack_require__(185);
+				var ListHeader=__webpack_require__(188);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(List, {list: list, kind: kind, type: type, id: id}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ListHeader, {list: list, kind: kind, type: type, id: id}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			})
+			
+			
+		}
+	});
+	module.exports=Search;
+
+
+/***/ },
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -22583,7 +22779,7 @@
 		backHandel:function(){
 			if(this.props.list=="list"){
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22591,8 +22787,8 @@
 				$("#footer").show();
 				$("#header").show();
 			}else if(this.props.kind=="kind"){
-				var Kind=__webpack_require__(189);
-				var KindHeader=__webpack_require__(190);
+				var Kind=__webpack_require__(187);
+				var KindHeader=__webpack_require__(189);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Kind, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22601,7 +22797,7 @@
 				$("#header").show();
 			}else if(this.props.type=="home"){
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22609,8 +22805,8 @@
 				$("#footer").show();
 				$("#header").show();
 			}else if(this.props.type=="kind"){
-				var Kind=__webpack_require__(189);
-				var KindHeader=__webpack_require__(190);
+				var Kind=__webpack_require__(187);
+				var KindHeader=__webpack_require__(189);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Kind, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22759,8 +22955,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22770,7 +22966,7 @@
 				}else if(index==1){
 					
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22784,8 +22980,8 @@
 			$(".center1").click(function(){
 				var list=that.props.list;
 				var kind=that.props.kind;
-				var Search=__webpack_require__(186);
-				var SearchHeader=__webpack_require__(188);
+				var Search=__webpack_require__(184);
+				var SearchHeader=__webpack_require__(258);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Search, {list: list, kind: kind}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -22987,8 +23183,8 @@
 				var goods_id 	 = $(this).attr('data-goods_id');
 				var list	 	 = that.props.list;
 				var kind	 	 = that.props.kind;
-				var Detail	     = __webpack_require__(194);
-				var DetailHeader = __webpack_require__(217);
+				var Detail	     = __webpack_require__(193);
+				var DetailHeader = __webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {list: list, kind: kind, id: id, goods_id: goods_id}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23003,7 +23199,7 @@
 
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -23011,366 +23207,20 @@
 	var HomeHeader=React.createClass({displayName: "HomeHeader",
 		render:function(){
 			return(
-				React.createElement("div", {className: "homeHeader"}, 
-					React.createElement("div", {className: "left"}, 
-						React.createElement("div", {className: "map"}, 
-							React.createElement("div", {className: "left"}, 
-								React.createElement("img", {src: "img/icon_location.png"})
-							), 
-							React.createElement("div", {className: "right"}, 
-								"郑州市"
-							)
-						)
-					), 
-					React.createElement("div", {className: "center", id: "goSearch"}, 
-						React.createElement("div", {className: "search"}, 
-							React.createElement("img", {src: "img/icon_search.png"})
-						), 
-						React.createElement("div", {className: "input"}, 
-							React.createElement("input", {type: "text", placeholder: "搜索天采商品与店铺"})
-						), 
-						React.createElement("div", {className: "select"}, 
-							React.createElement("img", {src: "img/select.png"})
-						)
-					), 
-					React.createElement("div", {className: "right", id: "goNewsCenter", "data-type": "home"}, 
-						React.createElement("div", {className: "img"}, 
-							React.createElement("img", {src: "img/icon_messages.png"})
-						)
-						
-					)
-				  
+				React.createElement("div", {className: "homeHeader"}
+
 				)
 			)
 		},
 		componentDidMount:function(){
-			var that=this;
-			$("#goSearch").on("click",function(){
-				var Search=__webpack_require__(186);
-				var SearchHeader=__webpack_require__(188);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Search, {type: "home"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(SearchHeader, {type: "home"}),document.getElementById("header"));
-				$("#footer").hide();
-			})
-			$(".select").on("click",function(){
-				console.log("2222222")
-				$("")
-			})
-			$("#goNewsCenter").click(function(){
-				var type=$(this).attr("data-type")
-				var NewsCenter=__webpack_require__(191);
-				var NewsCenterHeader=__webpack_require__(192);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(NewsCenter, null),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(NewsCenterHeader, {type: type}),document.getElementById("header"));
-				$("#footer").hide();
-			})
+			
 		},
 	});
 	module.exports=HomeHeader;
 
 
 /***/ },
-/* 186 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	//var ProList=require("./ProList");
-	var Search=React.createClass({displayName: "Search",
-		getInitialState:function(){
-			return{
-				kindList:"",
-				li_result:"",
-				url_interface:"m.chepc.cn"
-			}
-		},
-		componentWillMount:function(){
-			var that		  = this;
-			var url_interface = that.state.url_interface;//获取接口地址
-			$.ajax({
-				type:"get",
-				url:"http://"+url_interface+"/sopa/goods/search_index",
-				async:true,
-				data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3'},
-				success:function(data){
-					var arr_li   = [];
-					for (var i = 0 ; i < data.search_index.length ; i++) {
-						var arr_span = [];
-						var res      = data.search_index[i];
-					for (var j = 0 ; j < res.length ; j++) {
-							arr_span.push(React.createElement("span", {className: "WZ", "data-id": res[j].id, key: j}, res[j].name));
-						}
-						arr_li.push(React.createElement("li", {key: i}, 
-										arr_span
-									));
-					}
-					that.setState({
-						li_result:arr_li
-					})
-				}
-			});
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "searchContent"}, 
-					React.createElement("div", {className: "hotSearch"}, "热门搜索"), 
-					React.createElement("ul", {className: "hs_main"}, 
-						this.state.li_result
-					), 
-					React.createElement("div", {className: "historySearch"}, "历史搜索"), 
-					React.createElement("ul", {className: "historymain"}, 
-						React.createElement("li", null, 
-							React.createElement("div", {className: "hm_left"}, 
-								React.createElement("div", {className: "hml_img"}, 
-									React.createElement("img", {src: "img/search.png"})
-								)
-							), 
-							React.createElement("div", {className: "hm_right"}, "不干胶")
-						), 
-						React.createElement("li", null, 
-							React.createElement("div", {className: "hm_left"}, 
-								React.createElement("div", {className: "hml_img"}, 
-									React.createElement("img", {src: "img/search.png"})
-								)
-							), 
-							React.createElement("div", {className: "hm_right"}, "不干胶")
-						), 
-						React.createElement("li", null, 
-							React.createElement("div", {className: "hm_left"}, 
-								React.createElement("div", {className: "hml_img"}, 
-									React.createElement("img", {src: "img/search.png"})
-								)
-							), 
-							React.createElement("div", {className: "hm_right"}, "不干胶")
-						), 
-						React.createElement("li", null, 
-							React.createElement("div", {className: "hm_left"}, 
-								React.createElement("div", {className: "hml_img"}, 
-									React.createElement("img", {src: "img/search.png"})
-								)
-							), 
-							React.createElement("div", {className: "hm_right"}, "不干胶")
-						), 
-						React.createElement("li", null, "清除搜索记录")
-					)
-				)
-				
-			)
-		},
-		componentDidUpdate:function(){
-			var that=this;
-			$(".WZ").click(function(){
-				var list=that.props.list;
-				var kind=that.props.kind;
-				var type=that.props.type;
-				var id=$(this).attr("data-id");
-				var List=__webpack_require__(184);
-				var ListHeader=__webpack_require__(187);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(List, {list: list, kind: kind, type: type, id: id}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(ListHeader, {list: list, kind: kind, type: type, id: id}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			})
-			
-			
-		}
-	});
-	module.exports=Search;
-
-
-/***/ },
 /* 187 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var ListHeader=React.createClass({displayName: "ListHeader",
-		
-		render:function(){
-			return(
-				React.createElement("div", {className: "ListHeader"}
-					
-				)
-			)
-		},
-		componentDidMount:function(){
-			
-		}
-	});
-	module.exports=ListHeader;
-
-
-/***/ },
-/* 188 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var SearchHeader=React.createClass({displayName: "SearchHeader",
-		getInitialState:function(){
-			return{
-				url_interface:"m.chepc.cn"//服务器地址
-
-			}
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "searchHeader"}, 
-					React.createElement("div", {className: "search_left"}, 
-						React.createElement("div", {className: "search1"}, 
-							React.createElement("img", {src: "img/search.png"})
-						), 
-						React.createElement("div", {className: "input"}, 
-							React.createElement("input", {className: "search_name", type: "text", placeholder: "搜索天采商品"})
-						)
-					), 
-					React.createElement("div", {className: "search_right", id: "goHome"}, 
-						"取消"
-					), 
-				  	React.createElement("ul", {className: "search_list"}, 
-				  		this.state.li_res
-				  	)
-				)
-			)
-		},
-		componentDidMount:function(){
-			var that=this;
-			$("#goHome").click(function(){
-	//			console.log("eeeeee");
-				if(that.props.type=="home"){
-					$("#footer ul li").eq(0).trigger("click")
-					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(HomeHeader, null),document.getElementById("header"));
-					$("#footer").show();
-				}else if(that.props.type=="kind"){
-					$("#footer ul li").eq(1).trigger("click")
-					var Kind=__webpack_require__(189);
-					var KindHeader=__webpack_require__(190);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(Kind, null),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(KindHeader, null),document.getElementById("header"));
-					$("#footer").show();
-				}else if(that.props.list=="list"){
-					var List=__webpack_require__(184);
-					var ListHeader=__webpack_require__(187);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(List, {list: "list"}),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(ListHeader, null),document.getElementById("header"));
-					$("#header").hide();
-					$("#footer").hide();
-				}else if(that.props.kind=="kind"){
-					var List=__webpack_require__(184);
-					var ListHeader=__webpack_require__(187);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(List, {kind: "kind"}),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(ListHeader, {kind: "kind"}),document.getElementById("header"));
-					$("#header").hide();
-					$("#footer").hide();
-				}
-				
-			});
-	//===========改变input框里的内容显示搜索列表=======================================		
-			$(".search_name").on("input",function(){
-				
-				if($(this).val()!=""){
-					var url_interface = that.state.url_interface;
-					var goods_name = $(this).val();
-					$.ajax({
-						type:"get",
-						url:"http://"+url_interface+"/sopa/goods/get_search_name",
-						async:false,
-						data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',goods_name:goods_name},
-						success:function(data){
-							console.log(data);
-							var arr_li=[];
-							if(data.state == 1){
-								for(var i = 0 ; i < data.result.length ; i++){
-									arr_li.push(React.createElement("li", {key: i, className: "click_li", "data-id": data.result[i].cat_id}, data.result[i].goods_name))			
-								}
-							}
-							that.setState({
-								li_res:arr_li
-							})
-						}
-					});
-					$(".search_list").css("display","block");
-				}else{
-					$(".search_list").css("display","none");
-				}
-				
-				
-			})
-		},
-		componentDidUpdate:function(){
-			var that=this;
-			var type=that.props.type;
-			var list=that.props.list;
-			var kind=that.props.kind;
-			$(".click_li").click(function(){
-				var id=$(this).attr("data-id");
-				if(type=="home"){
-					var List=__webpack_require__(184);
-					var ListHeader=__webpack_require__(187);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(List, {list: "list", id: id}),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(ListHeader, {list: "list", id: id}),document.getElementById("header"));
-					$("#header").hide();
-					$("#footer").hide();	
-				}else if(type=="kind"){
-					var List=__webpack_require__(184);
-					var ListHeader=__webpack_require__(187);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(List, {kind: "kind", id: id}),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(ListHeader, {kind: "kind", id: id}),document.getElementById("header"));
-					$("#header").hide();
-					$("#footer").hide();
-				}else if(list=="list"){
-					var List=__webpack_require__(184);
-					var ListHeader=__webpack_require__(187);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(List, {list: "list", id: id}),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(ListHeader, {list: "list", id: id}),document.getElementById("header"));
-					$("#header").hide();
-					$("#footer").hide();
-				}else if(kind=="kind"){
-					var List=__webpack_require__(184);
-					var ListHeader=__webpack_require__(187);
-					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(List, {kind: "kind", id: id}),document.getElementById("content"));
-					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(ListHeader, {kind: "kind", id: id}),document.getElementById("header"));
-					$("#header").hide();
-					$("#footer").hide();
-				}
-				
-				
-				
-				
-			})
-		}
-	});
-	module.exports=SearchHeader;
-
-
-/***/ },
-/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -23468,8 +23318,8 @@
 				//获取二级分类id
 				var cate_two_id = $(this).attr('data-cate_id');
 				var kind=$(this).attr("data-type");
-				var List=__webpack_require__(184);
-				var ListHeader=__webpack_require__(187);
+				var List=__webpack_require__(185);
+				var ListHeader=__webpack_require__(188);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(List, {kind: kind, id: cate_two_id}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23484,7 +23334,29 @@
 
 
 /***/ },
-/* 190 */
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var ListHeader=React.createClass({displayName: "ListHeader",
+		
+		render:function(){
+			return(
+				React.createElement("div", {className: "ListHeader"}
+					
+				)
+			)
+		},
+		componentDidMount:function(){
+			
+		}
+	});
+	module.exports=ListHeader;
+
+
+/***/ },
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -23525,7 +23397,7 @@
 	//			console.log("eeeeee");
 				$("#footer ul li").eq(0).trigger("click")
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23533,8 +23405,8 @@
 			});
 			$("#goNewsCenter").click(function(){
 				var type=$(this).attr("data-type");
-				var NewsCenter=__webpack_require__(191);
-				var NewsCenterHeader=__webpack_require__(192);
+				var NewsCenter=__webpack_require__(190);
+				var NewsCenterHeader=__webpack_require__(191);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(NewsCenter, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23543,8 +23415,8 @@
 			});
 	//=========点击搜索到列表页================================
 			$(".center1").click(function(){
-				var Search=__webpack_require__(186);
-				var SearchHeader=__webpack_require__(188);
+				var Search=__webpack_require__(184);
+				var SearchHeader=__webpack_require__(258);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Search, {type: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23575,7 +23447,7 @@
 
 
 /***/ },
-/* 191 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -23752,7 +23624,7 @@
 
 
 /***/ },
-/* 192 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -23762,25 +23634,25 @@
 	//		console.log("222"+this.props.type);
 	//		var type=this.props.type;
 	//		console.log("11"+type);
-			if(this.props.type=="home"){
+			if(this.props.type3=="home"){
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(HomeHeader, null),document.getElementById("header"));
 				$("#footer").show();
 			}else if(this.props.type=="kind"){
-				var Kind=__webpack_require__(189);
-				var KindHeader=__webpack_require__(190);
+				var Kind=__webpack_require__(187);
+				var KindHeader=__webpack_require__(189);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Kind, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(KindHeader, null),document.getElementById("header"));
 				$("#footer").show();
 			}else if(this.props.type=="cart"){
-				var Cart=__webpack_require__(193);
-				var CartHeader=__webpack_require__(195);
+				var Cart=__webpack_require__(192);
+				var CartHeader=__webpack_require__(194);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Cart, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23788,16 +23660,16 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(UserHeader, null),document.getElementById("header"));
 				$("#footer").show();
 			}else if(this.props.type=="myOrder"){
-				var MyOrder=__webpack_require__(222);
-				var MyOrderHeader=__webpack_require__(224);
+				var MyOrder=__webpack_require__(221);
+				var MyOrderHeader=__webpack_require__(223);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyOrder, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23805,8 +23677,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="refund"){
-				var Refund=__webpack_require__(225);
-				var RefundHeader=__webpack_require__(227);
+				var Refund=__webpack_require__(224);
+				var RefundHeader=__webpack_require__(226);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Refund, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23814,8 +23686,8 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.type=="myeval"){
-				var MyEval=__webpack_require__(242);
-				var MyEvalHeader=__webpack_require__(243);
+				var MyEval=__webpack_require__(241);
+				var MyEvalHeader=__webpack_require__(242);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyEval, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23823,17 +23695,17 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.type=="collect"){
-				var Collect=__webpack_require__(196);
-				var CollectHeader=__webpack_require__(244);
+				var Collect=__webpack_require__(195);
+				var CollectHeader=__webpack_require__(243);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Collect, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(CollectHeader, {type: "user"}),document.getElementById("header"));
 				$("#footer").show();
 				$("#header").hide();
-			}else if(this.props.type=="mineziliao"){
-				var MineZiliao=__webpack_require__(245);
-				var MineZiliaoHeader=__webpack_require__(247);
+			}else if(this.props.type1=="mineziliao"){
+				var MineZiliao=__webpack_require__(244);
+				var MineZiliaoHeader=__webpack_require__(246);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MineZiliao, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23841,8 +23713,8 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.type=="mypurse"){
-				var Mypurse=__webpack_require__(234);
-				var MypurseHeader=__webpack_require__(236);
+				var Mypurse=__webpack_require__(233);
+				var MypurseHeader=__webpack_require__(235);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Mypurse, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23850,8 +23722,8 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.type=="voucherCenter"){
-				var VoucherCenter=__webpack_require__(235);
-				var VoucherCenterHeader=__webpack_require__(237);
+				var VoucherCenter=__webpack_require__(234);
+				var VoucherCenterHeader=__webpack_require__(236);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(VoucherCenter, {type: "mypurse"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23859,8 +23731,8 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.type=="set"){
-				var Set=__webpack_require__(207);
-				var SetHeader=__webpack_require__(209);
+				var Set=__webpack_require__(206);
+				var SetHeader=__webpack_require__(208);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23868,8 +23740,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="setmessage"){
-				var SetMessage=__webpack_require__(215);
-				var SetMessageHeader=__webpack_require__(216);
+				var SetMessage=__webpack_require__(214);
+				var SetMessageHeader=__webpack_require__(215);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(SetMessage, {type: "set"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23877,49 +23749,49 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="changeNumber"){
-				var ChangeNumber=__webpack_require__(208);
-				var ChangeNumberHeader=__webpack_require__(210);
+				var ChangeNumber=__webpack_require__(207);
+				var ChangeNumberHeader=__webpack_require__(209);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeNumber, {type: "set"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(ChangeNumberHeader, {type: "set"}),document.getElementById("header"));
 				$("#header").hide();
 			}else if(this.props.type=="changePassword"){
-				var ChangePassword=__webpack_require__(211);
-				var ChangePasswordHeader=__webpack_require__(212);
+				var ChangePassword=__webpack_require__(210);
+				var ChangePasswordHeader=__webpack_require__(211);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangePassword, {type: "set"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(ChangePasswordHeader, {type: "set"}),document.getElementById("header"));
 				$("#header").hide();
 			}else if(this.props.type=="welcomeTucao"){
-				var WelcomeTucao=__webpack_require__(213);
-				var WelcomeTucaoHeader=__webpack_require__(214);
+				var WelcomeTucao=__webpack_require__(212);
+				var WelcomeTucaoHeader=__webpack_require__(213);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(WelcomeTucao, {type: "set"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(WelcomeTucaoHeader, {type: "set"}),document.getElementById("header"));
 				$("#header").hide();
 			}else if(this.props.type=="detail"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {type: "home"}),document.getElementById("header"));
 				$("#header").hide();
 			}else if(this.props.type1=="home"){
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(MoreEvalHeader, {type: "home"}),document.getElementById("header"));
 				$("#footer").hide();
 				$("#header").hide();
-			}else if(this.props.list=="list"){
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+			}else if(this.props.list2=="list"){
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23927,24 +23799,24 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type2=="home"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {type: "home"}),document.getElementById("header"));
 				$("#header").hide();
 			}else if(this.props.list1=="list"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {list: "list"}),document.getElementById("header"));
 				$("#header").hide();
-			}else if(this.props.kind=="kind"){
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+			}else if(this.props.kind2=="kind"){
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23952,24 +23824,24 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.kind1=="kind"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {kind: "kind"}),document.getElementById("header"));
 				$("#header").hide();
 			}else if(this.props.cart2=="cart"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {cart: "cart"}),document.getElementById("header"));
 				$("#header").hide();
-			}else if(this.props.cart=="cart"){
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+			}else if(this.props.cart3=="cart"){
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23977,8 +23849,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="orderdetail"){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23986,8 +23858,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="tuikuan"){
-				var TuiKuan=__webpack_require__(232);
-				var TuiKuanHeader=__webpack_require__(233);
+				var TuiKuan=__webpack_require__(231);
+				var TuiKuanHeader=__webpack_require__(232);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(TuiKuan, {type: "orderdetail"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -23995,8 +23867,8 @@
 				$("#header").hide();
 				$("#footer").hide();
 			}else if(this.props.type=="ordereval"){
-				var OrderEval=__webpack_require__(229);
-				var OrderEvalHeader=__webpack_require__(231);
+				var OrderEval=__webpack_require__(228);
+				var OrderEvalHeader=__webpack_require__(230);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderEval, {type: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24004,16 +23876,16 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.collect1=="collect"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {collect: "collect"}),document.getElementById("header"));
 				$("#header").hide(); 
-			}else if(this.props.collect=="collect"){
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+			}else if(this.props.collect2=="collect"){
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24021,8 +23893,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="changename"){
-				var ChangeName=__webpack_require__(246);
-				var ChangeNameHeader=__webpack_require__(248);
+				var ChangeName=__webpack_require__(245);
+				var ChangeNameHeader=__webpack_require__(247);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeName, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24030,8 +23902,8 @@
 				$("#header").hide();
 				$("#footer").hide();
 			}else if(this.props.type=="changeaddress"){
-				var ChangeAddress=__webpack_require__(249);
-				var ChangeAddressHeader=__webpack_require__(251);
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24039,8 +23911,8 @@
 				$("#header").hide();
 				$("#footer").hide();
 			}else if(this.props.type=="editoraddress"){
-				var EditorAddress=__webpack_require__(250);
-				var EditorAddressHeader=__webpack_require__(252);
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(EditorAddress, {type: "changeaddress"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24048,8 +23920,8 @@
 				$("#header").hide();
 				$("#footer").hide();
 			}else if(this.props.type=="addaddress"){
-				var AddAddress=__webpack_require__(253);
-				var AddAddressHeader=__webpack_require__(254);
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(AddAddress, {type: "changeaddress"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24057,8 +23929,8 @@
 				$("#header").hide();
 				$("#footer").hide();
 			}else if(this.props.type=="balance"){
-				var Balance=__webpack_require__(238);
-				var BalanceHeader=__webpack_require__(240);
+				var Balance=__webpack_require__(237);
+				var BalanceHeader=__webpack_require__(239);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Balance, {type: "mypurse"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24066,8 +23938,8 @@
 				$("#header").hide();
 				$("#footer").hide();
 			}else if(this.props.type=="mingxi"){
-				var MingXi=__webpack_require__(239);
-				var MingXiHeader=__webpack_require__(241);
+				var MingXi=__webpack_require__(238);
+				var MingXiHeader=__webpack_require__(240);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MingXi, {type: "balance"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24075,16 +23947,16 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.myeval1=="myeval"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(DetailHeader, {myeval: "myeval"}),document.getElementById("header"));
 				$("#header").hide(); 
-			}else if(this.props.myeval=="myeval"){
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+			}else if(this.props.myeval2=="myeval"){
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24092,14 +23964,230 @@
 				$("#footer").hide();
 				$("#header").hide(); 
 			}else if(this.props.refund=="refund"){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "refund"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(OrderDetailHeader, {type: "refund"}),document.getElementById("header"));
 				$("#footer").hide();
 				$("#header").hide();
+			}else if(this.props.kind=="kind"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type=="home"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {type: "home"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type=="mineziliao"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {type: "mineziliao"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.list=="list"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {list: "list"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.collect=="collect"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart=="cart"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart1=="cart"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {cart1: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {cart1: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.myeval=="myeval"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {myeval: "myeval"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.kind4=="kind"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type4=="home"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {type: "home"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type4=="mineziliao"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {type: "mineziliao"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {type: "mineziliao"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.list4=="list"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {list: "list"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.collect4=="collect"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart4=="cart"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart14=="cart"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {cart1: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {cart1: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.myeval4=="myeval"){
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {myeval: "myeval"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.kind5=="kind"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type5=="home"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {type: "home"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type5=="mineziliao"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {type: "mineziliao"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {type: "mineziliao"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.list5=="list"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {list: "list"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.collect5=="collect"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart5=="cart"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart15=="cart"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {cart1: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {cart1: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.myeval5=="myeval"){
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {myeval: "myeval"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
 			}
 			
 		},
@@ -24136,7 +24224,7 @@
 
 
 /***/ },
-/* 193 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -24156,7 +24244,6 @@
 			var user 		  = that.state.user;
 			var url_interface = that.state.url_interface;
 			var shop_id       = that.state.shop_id;
-
 			$.ajax({
 				type:"get",
 				url:"http://"+url_interface+"/sopa/cart/cartList",
@@ -24177,7 +24264,7 @@
 								check_length++;
 								var selected_img ="img/checked.png";
 							}
-							cartList_arr.push(React.createElement("li", {key: i, className: "li_cart_id", "data-cart_id": result[i].id}, 
+							cartList_arr.push(React.createElement("li", {key: i, className: "li_cart_id", "data-cart_id": result[i].id, "data-goods_id": result[i].goods_id}, 
 									  			React.createElement("div", {className: "cc_main"}, 
 									  				React.createElement("div", {className: "ccm_check"}, 
 														React.createElement("div", {className: "ccmc_img"}, 
@@ -24422,7 +24509,7 @@
 			$("#goHome").click(function(){
 				$("#footer ul li").eq(0).trigger("click")
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24430,8 +24517,8 @@
 			});
 			$("#goNewsCenter").click(function(){
 				var type=$(this).attr("data-type");
-				var NewsCenter=__webpack_require__(191);
-				var NewsCenterHeader=__webpack_require__(192);
+				var NewsCenter=__webpack_require__(190);
+				var NewsCenterHeader=__webpack_require__(191);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(NewsCenter, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24447,24 +24534,14 @@
 				$(".cartFooter_right span").eq(0).html(allNumber)
 			});
 
-	//=====================点击每个商品进入详情======================================================	
-			$(".ccm_conent").click(function(){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {cart: "cart"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {cart: "cart"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			});
+
 
 
 	//=====================点击空购物车去抢购=====================================	
 			$(".cart_kong p").eq(2).click(function(){
 				$("#footer ul li").eq(0).trigger("click")
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24479,7 +24556,6 @@
 	//=====================================点击加减按钮加减物品
 			$(".eachGoods_add").click(function(e){
 				e.stopImmediatePropagation();
-	//			alert("ccc")
 				var b		= $(this).prev(".eachGoods_number").html();
 				var a		= parseFloat(b);
 				var a1		= a+1;
@@ -24502,7 +24578,6 @@
 			})
 			$(".eachGoods_sub").click(function(e){
 				e.stopImmediatePropagation();
-	//			alert("ddd")
 				var b = $(this).next(".eachGoods_number").html();
 				var a = parseFloat(b);
 				var a1 = a - 1;
@@ -24533,6 +24608,19 @@
 	//				
 	//			}
 		});
+	//=====================点击每个商品进入详情======================================================	
+			$(".ccm_conent").click(function(){
+				var id=$(this).parents("li").attr("data-cart_id");
+				var goods_id=$(this).parents("li").attr("data-goods_id");
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {cart: "cart", id: id, goods_id: goods_id}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {cart: "cart", id: id, goods_id: goods_id}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			});	
 	//==================点击每个商品，改变选中状态===========================================	
 			$(".ccm_check").click(function(){
 				var $img=$(this).find(".ccmc_img").find("img").attr("src")=="img/534.png"?"img/checked.png":"img/534.png";
@@ -24577,8 +24665,8 @@
 		       		if($(this).find("span").eq(2).html()==0){
 		       			that.makeText("您还没有选择宝贝哦",2000);
 		       		}else if($(this).find("span").eq(2).html()!=0){
-		       			var FirmOrder=__webpack_require__(255);
-						var FirmOrderHeader=__webpack_require__(260);
+		       			var FirmOrder=__webpack_require__(249);
+						var FirmOrderHeader=__webpack_require__(251);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(FirmOrder, {cart1: "cart"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24640,7 +24728,7 @@
 
 
 /***/ },
-/* 194 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -24810,7 +24898,7 @@
 			var id=this.props.id;
 			if(this.props.type=="home"){
 				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
+				var HomeHeader=__webpack_require__(186);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24818,8 +24906,8 @@
 				$("#footer").show();
 				$("#header").show();
 			}else if(this.props.list=="list"){
-				var List=__webpack_require__(184);
-				var ListHeader=__webpack_require__(187);
+				var List=__webpack_require__(185);
+				var ListHeader=__webpack_require__(188);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(List, {list: "list", id: id}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24827,8 +24915,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.kind=="kind"){
-				var List=__webpack_require__(184);
-				var ListHeader=__webpack_require__(187);
+				var List=__webpack_require__(185);
+				var ListHeader=__webpack_require__(188);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(List, {kind: "kind", id: id}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24836,8 +24924,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.cart=="cart"){
-				var Cart=__webpack_require__(193);
-				var CartHeader=__webpack_require__(195);
+				var Cart=__webpack_require__(192);
+				var CartHeader=__webpack_require__(194);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Cart, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24845,8 +24933,8 @@
 				$("#footer").show();
 				$("#header").hide();
 			}else if(this.props.collect=="collect"){
-				var Collect=__webpack_require__(196);
-				var CollectHeader=__webpack_require__(244);
+				var Collect=__webpack_require__(195);
+				var CollectHeader=__webpack_require__(243);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Collect, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -24854,8 +24942,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.myeval=="myeval"){
-				var MyEval=__webpack_require__(242);
-				var MyEvalHeader=__webpack_require__(243);
+				var MyEval=__webpack_require__(241);
+				var MyEvalHeader=__webpack_require__(242);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyEval, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25103,15 +25191,7 @@
 		componentDidMount:function(){
 			var that=this;
 
-	//=========================上下滑动详情头部的效果================================		
-			/*$(".detailContent").swipeUp(function(){
-	//			$(".detailHeader").addClass("beginChange");
-				console.log($(".goodsDetail_introduct").height())
-			})*/
-	//		$(".detailContent").swipeDown(function(){
-	//			$(".detailHeader").removeClass("beginChange");
-	//		})
-			
+	//=========================上下滑动详情头部的效果================================
 			function getTopDistance() {
 				return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 			}
@@ -25138,7 +25218,7 @@
 				}else{
 					$(".goodsDetail_introduct").removeClass("alreadyMove")
 				}
-				if(scrollTop>40){
+				if(scrollTop>8){
 					$(".goodsDetail_introductMain").css("display","block");
 				}else{
 					$(".goodsDetail_introductMain").css("display","none");
@@ -25153,8 +25233,8 @@
 	//=========================点击购物车标志================================			
 			$("#goCart").click(function(){
 				$("#footer ul li").eq(2).trigger("click")
-				var Cart=__webpack_require__(193);
-				var CartHeader=__webpack_require__(195);
+				var Cart=__webpack_require__(192);
+				var CartHeader=__webpack_require__(194);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Cart, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25179,8 +25259,8 @@
 				var collect1=that.props.collect;
 				var myeval1=that.props.myeval;
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type2: type2, list1: list1, kind1: kind1, cart2: cart2, collect1: collect1, myeval1: myeval1}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25189,7 +25269,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25217,8 +25297,8 @@
 					$(".weui_actionsheet").addClass("weui_actionsheet weui_actionsheet_toggle");
 					
 				}else{
-					var Login=__webpack_require__(202);
-					var LoginHeader=__webpack_require__(205);
+					var Login=__webpack_require__(201);
+					var LoginHeader=__webpack_require__(204);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Login, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25263,8 +25343,8 @@
 					var cart=that.props.cart;
 					var collect=that.props.collect;
 					var myeval=that.props.myeval;
-					var Login=__webpack_require__(202); 
-					var LoginHeader=__webpack_require__(205);
+					var Login=__webpack_require__(201); 
+					var LoginHeader=__webpack_require__(204);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Login, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25297,8 +25377,8 @@
 						var cart=that.props.cart;
 						var collect=that.props.collect;
 						var myeval=that.props.myeval;
-						var FirmOrder=__webpack_require__(255);
-						var FirmOrderHeader=__webpack_require__(260);
+						var FirmOrder=__webpack_require__(249);
+						var FirmOrderHeader=__webpack_require__(251);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(FirmOrder, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25313,8 +25393,8 @@
 					var cart=that.props.cart;
 					var collect=that.props.collect;
 					var myeval=that.props.myeval;
-					var Login=__webpack_require__(202); 
-					var LoginHeader=__webpack_require__(205);
+					var Login=__webpack_require__(201); 
+					var LoginHeader=__webpack_require__(204);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Login, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25384,8 +25464,8 @@
 						var cart=that.props.cart;
 						var collect=that.props.collect;
 						var myeval=that.props.myeval;
-						var FirmOrder=__webpack_require__(255);
-						var FirmOrderHeader=__webpack_require__(260);
+						var FirmOrder=__webpack_require__(249);
+						var FirmOrderHeader=__webpack_require__(251);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(FirmOrder, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25415,8 +25495,8 @@
 				var type=that.props.type;
 				var collect=that.props.collect;
 				var myeval=that.props.myeval;
-				var MoreEval=__webpack_require__(261);
-				var MoreEvalHeader=__webpack_require__(262);
+				var MoreEval=__webpack_require__(256);
+				var MoreEvalHeader=__webpack_require__(257);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MoreEval, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25502,7 +25582,7 @@
 
 
 /***/ },
-/* 195 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -25523,7 +25603,7 @@
 
 
 /***/ },
-/* 196 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -25544,8 +25624,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25553,8 +25633,8 @@
 				$("#footer").show();
 				$("#header").show();
 			}else if(this.props.collect=="collect"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25842,8 +25922,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25852,7 +25932,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25953,8 +26033,8 @@
 			});	
 	//==========点击收藏商品到对应的商品详情========================================		
 			$(".collect_main_all").click(function(){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -25968,7 +26048,7 @@
 
 
 /***/ },
-/* 197 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -26187,8 +26267,8 @@
 	//============注册页面============================		
 			$("#goRegister").click(function(){
 				var type=$(this).attr("data-type");
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {type: type}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26198,8 +26278,8 @@
 	//===============去登录页面================================		
 			$("#goLogin").click(function(){
 				var type=$(this).attr("data-type");
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {type: type}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26210,8 +26290,8 @@
 			$("#goMyOrder").click(function(){
 	//			console.log("tttt")
 				var type=$(this).attr("data-type");				
-				var MyOrder=__webpack_require__(222);
-				var MyOrderHeader=__webpack_require__(224);
+				var MyOrder=__webpack_require__(221);
+				var MyOrderHeader=__webpack_require__(223);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyOrder, {type: type}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26222,8 +26302,8 @@
 	//============点击待付款  发货  收货  评价传参到我的订单里面的相应页面========================		
 			$(".ok_list .order_list").click(function(){
 				var indexTo=$(this).index();
-				var MyOrder=__webpack_require__(222);
-				var MyOrderHeader=__webpack_require__(224);
+				var MyOrder=__webpack_require__(221);
+				var MyOrderHeader=__webpack_require__(223);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyOrder, {type: "user", indexOk: indexTo}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26234,8 +26314,8 @@
 			});
 	//=============点击退货售后=================		
 			$(".toRefund").click(function(){
-				var Refund=__webpack_require__(225);
-				var RefundHeader=__webpack_require__(227);
+				var Refund=__webpack_require__(224);
+				var RefundHeader=__webpack_require__(226);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Refund, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26253,8 +26333,8 @@
 					that.makeText("请登录",2000)
 				}else if(user){
 					if(index==0){
-						var Mypurse=__webpack_require__(234);
-						var MypurseHeader=__webpack_require__(236);
+						var Mypurse=__webpack_require__(233);
+						var MypurseHeader=__webpack_require__(235);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Mypurse, {type: "user"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26262,8 +26342,8 @@
 						$("#footer").hide();
 						$("#header").hide();
 					}else if(index==1){
-						var MyEval=__webpack_require__(242);
-						var MyEvalHeader=__webpack_require__(243);
+						var MyEval=__webpack_require__(241);
+						var MyEvalHeader=__webpack_require__(242);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(MyEval, {type: "user"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26271,8 +26351,8 @@
 						$("#footer").hide();
 						$("#header").hide();
 					}else if(index==2){
-						var Collect=__webpack_require__(196);
-						var CollectHeader=__webpack_require__(244);
+						var Collect=__webpack_require__(195);
+						var CollectHeader=__webpack_require__(243);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Collect, {type: "user", collect: "collect"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26280,8 +26360,8 @@
 						$("#footer").hide();
 						$("#header").hide();
 					}else if(index==3){
-						var MineZiliao=__webpack_require__(245);
-						var MineZiliaoHeader=__webpack_require__(247);
+						var MineZiliao=__webpack_require__(244);
+						var MineZiliaoHeader=__webpack_require__(246);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(MineZiliao, {type: "user"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26303,8 +26383,8 @@
 			};
 	//===========点击登录状态的修改资料
 			$(".change_zhiliao").click(function(){
-				var MineZiliao=__webpack_require__(245);
-				var MineZiliaoHeader=__webpack_require__(247);
+				var MineZiliao=__webpack_require__(244);
+				var MineZiliaoHeader=__webpack_require__(246);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MineZiliao, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26323,7 +26403,7 @@
 
 
 /***/ },
-/* 198 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -26490,8 +26570,8 @@
 				var list=that.props.list;
 				var kind=that.props.kind;
 				var cart=that.props.cart;
-				var RegisterXieYi=__webpack_require__(199);
-				var RegisterXieYiHeader=__webpack_require__(200);
+				var RegisterXieYi=__webpack_require__(198);
+				var RegisterXieYiHeader=__webpack_require__(199);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(RegisterXieYi, {type: type, list: list, kind: kind, cart: cart}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26528,48 +26608,48 @@
 					$(".guiding").css("color","#f23025")
 				}else{
 					if(that.props.type=="home"){
-						var Login=__webpack_require__(202);
-						var LoginHeader=__webpack_require__(205);
+						var Login=__webpack_require__(201);
+						var LoginHeader=__webpack_require__(204);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Login, {type: "home"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 						ReactDOM.render(React.createElement(LoginHeader, {type: "home"}),document.getElementById("header"));
 						$("#footer").hide();
 					}else if(that.props.type=="user"){
-						var User=__webpack_require__(197);
-						var UserHeader=__webpack_require__(206);
+						var User=__webpack_require__(196);
+						var UserHeader=__webpack_require__(205);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 						ReactDOM.render(React.createElement(UserHeader, null),document.getElementById("header"));
 						$("#footer").show()
 					}else if(that.props.list=="list"){
-						var Login=__webpack_require__(202);
-						var LoginHeader=__webpack_require__(205);
+						var Login=__webpack_require__(201);
+						var LoginHeader=__webpack_require__(204);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Login, {list: "list"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 						ReactDOM.render(React.createElement(LoginHeader, {list: "list"}),document.getElementById("header"));
 						$("#footer").hide();
 					}else if(that.props.kind=="kind"){
-						var Login=__webpack_require__(202);
-						var LoginHeader=__webpack_require__(205);
+						var Login=__webpack_require__(201);
+						var LoginHeader=__webpack_require__(204);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Login, {kind: "kind"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 						ReactDOM.render(React.createElement(LoginHeader, {kind: "kind"}),document.getElementById("header"));
 						$("#footer").hide();
 					}else if(that.props.cart=="cart"){
-						var Login=__webpack_require__(202);
-						var LoginHeader=__webpack_require__(205);
+						var Login=__webpack_require__(201);
+						var LoginHeader=__webpack_require__(204);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Login, {cart: "cart"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 						ReactDOM.render(React.createElement(LoginHeader, {cart: "cart"}),document.getElementById("header"));
 						$("#footer").hide();
 					}else if(that.props.collect=="collect"){
-						var Login=__webpack_require__(202);
-						var LoginHeader=__webpack_require__(205);
+						var Login=__webpack_require__(201);
+						var LoginHeader=__webpack_require__(204);
 						ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 						ReactDOM.render(React.createElement(Login, {collect: "collect"}),document.getElementById("content"));
 						ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -26878,7 +26958,7 @@
 
 
 /***/ },
-/* 199 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -26991,7 +27071,7 @@
 
 
 /***/ },
-/* 200 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27000,40 +27080,40 @@
 		
 		backHandels:function(){
 			if(this.props.type=="home"){
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(RegisterHeader, {type: "home"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.type=="user"){
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(RegisterHeader, {type: "user"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.list=="list"){
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(RegisterHeader, {list: "list"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.kind=="kind"){
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(RegisterHeader, {kind: "kind"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.cart=="cart"){
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27064,7 +27144,7 @@
 
 
 /***/ },
-/* 201 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27072,51 +27152,51 @@
 	var RegisterHeader=React.createClass({displayName: "RegisterHeader",
 		backHandels:function(){
 			if(this.props.type=="home"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {type: "home"}),document.getElementById("header"));
 			}else if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(UserHeader, null),document.getElementById("header"));
 				$("#footer").show()
 			}else if(this.props.list=="list"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {list: "list"}),document.getElementById("header"));
 			}else if(this.props.kind=="kind"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {kind: "kind"}),document.getElementById("header"));
 			}else if(this.props.cart=="cart"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {cart: "cart"}),document.getElementById("header"));
 			}else if(this.props.collect=="collect"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {collect: "collect"}),document.getElementById("header"));
 			}else if(this.props.myeval=="myeval"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27148,7 +27228,7 @@
 
 
 /***/ },
-/* 202 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27235,8 +27315,8 @@
 				var cart=that.props.cart;
 				var collect=that.props.collect;
 				var myeval=that.props.myeval;
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27284,8 +27364,8 @@
 								localStorage.setItem('users',JSON.stringify(users));//储存用户信息  localStorage 只能存字符串
 								alert(JSON.parse(localStorage.getItem("users")));
 								
-								var User=__webpack_require__(197);
-								var UserHeader=__webpack_require__(206);
+								var User=__webpack_require__(196);
+								var UserHeader=__webpack_require__(205);
 								ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 								ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 								ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27317,7 +27397,7 @@
 
 
 /***/ },
-/* 203 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27438,8 +27518,8 @@
 					var cart=that.props.cart;
 					var collect=that.props.collect;
 					var myeval=that.props.myeval;
-					var SetPassword=__webpack_require__(204);
-					var SetPasswordHeader=__webpack_require__(218);
+					var SetPassword=__webpack_require__(203);
+					var SetPasswordHeader=__webpack_require__(217);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(SetPassword, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27456,8 +27536,8 @@
 				var list=that.props.list;
 				var kind=that.props.kind;
 				var cart=that.props.cart;
-				var NotfindYZ=__webpack_require__(220);
-				var NotfindYZHeader=__webpack_require__(221);
+				var NotfindYZ=__webpack_require__(219);
+				var NotfindYZHeader=__webpack_require__(220);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(NotfindYZ, {type: type, list: list, kind: kind, cart: cart}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27475,7 +27555,7 @@
 
 
 /***/ },
-/* 204 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27547,8 +27627,8 @@
 					var kind=that.props.kind;
 					var cart=that.props.cart;
 					var collect=that.props.collect;
-					var Login=__webpack_require__(202);
-					var LoginHeader=__webpack_require__(205);
+					var Login=__webpack_require__(201);
+					var LoginHeader=__webpack_require__(204);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Login, {type: type, list: list, kind: kind, cart: cart, collect: collect}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27566,7 +27646,7 @@
 
 
 /***/ },
-/* 205 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27575,16 +27655,16 @@
 		
 		tobackHandel:function(){
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(UserHeader, null),document.getElementById("header"));
 				$("#footer").show();
 			}else if(this.props.type=="home"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27592,8 +27672,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.list=="list"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27601,8 +27681,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.kind=="kind"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27610,8 +27690,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.cart=="cart"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27619,8 +27699,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.collect=="collect"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27628,8 +27708,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.myeval=="myeval"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27663,8 +27743,8 @@
 				var cart=that.props.cart;
 				var collect=that.props.collect;
 				var myeval=that.props.myeval;
-				var Register=__webpack_require__(198);
-				var RegisterHeader=__webpack_require__(201);
+				var Register=__webpack_require__(197);
+				var RegisterHeader=__webpack_require__(200);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Register, {type: type, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27676,7 +27756,7 @@
 
 
 /***/ },
-/* 206 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27706,8 +27786,8 @@
 		componentDidMount:function(){
 			$("#goNewsCenter").click(function(){
 				var type=$(this).attr("data-type");
-				var NewsCenter=__webpack_require__(191);
-				var NewsCenterHeader=__webpack_require__(192);
+				var NewsCenter=__webpack_require__(190);
+				var NewsCenterHeader=__webpack_require__(191);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(NewsCenter, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27716,8 +27796,8 @@
 			});
 			$("#goSet").click(function(){
 				var type=$(this).attr("data-type");
-				var Set=__webpack_require__(207);
-				var SetHeader=__webpack_require__(209);
+				var Set=__webpack_require__(206);
+				var SetHeader=__webpack_require__(208);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Set, {type: type}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27732,7 +27812,7 @@
 
 
 /***/ },
-/* 207 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27747,8 +27827,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27876,8 +27956,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27886,7 +27966,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27899,8 +27979,8 @@
 			$(".change_main li").click(function(){
 				var type=$(this).attr("data-type");
 				if($(this).index()==0){
-					var ChangeNumber=__webpack_require__(208);
-					var ChangeNumberHeader=__webpack_require__(210);
+					var ChangeNumber=__webpack_require__(207);
+					var ChangeNumberHeader=__webpack_require__(209);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(ChangeNumber, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27908,8 +27988,8 @@
 					$("#header").hide();
 					$("#footer").hide();
 				}else if($(this).index()==1){
-					var ChangePassword=__webpack_require__(211);
-					var ChangePasswordHeader=__webpack_require__(212);
+					var ChangePassword=__webpack_require__(210);
+					var ChangePasswordHeader=__webpack_require__(211);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(ChangePassword, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27930,8 +28010,8 @@
 	//				$("#header").hide();
 	//				$("#footer").hide();
 				}else if($(this).index()==1){
-					var WelcomeTucao=__webpack_require__(213);
-					var WelcomeTucaoHeader=__webpack_require__(214);
+					var WelcomeTucao=__webpack_require__(212);
+					var WelcomeTucaoHeader=__webpack_require__(213);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(WelcomeTucao, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27939,8 +28019,8 @@
 					$("#header").hide();
 					$("#footer").hide();
 				}else if($(this).index()==2){
-					var SetMessage=__webpack_require__(215);
-					var SetMessageHeader=__webpack_require__(216);
+					var SetMessage=__webpack_require__(214);
+					var SetMessageHeader=__webpack_require__(215);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(SetMessage, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27953,8 +28033,8 @@
 	//===================退出当前登录
 			$(".tuichu").click(function(){
 				localStorage.removeItem('users');
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -27974,7 +28054,7 @@
 
 
 /***/ },
-/* 208 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -27989,8 +28069,8 @@
 		backHandel:function(){
 	//		console.log(this.props.type)
 			if(this.props.type=="set"){
-				var Set=__webpack_require__(207);
-				var SetHeader=__webpack_require__(209);
+				var Set=__webpack_require__(206);
+				var SetHeader=__webpack_require__(208);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28092,8 +28172,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28102,7 +28182,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28160,8 +28240,8 @@
 	//===============点击确认===========================
 			$(".queren").click(function(){
 				if(that.props.type=="set"){
-					var Set=__webpack_require__(207);
-					var SetHeader=__webpack_require__(209);
+					var Set=__webpack_require__(206);
+					var SetHeader=__webpack_require__(208);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28179,7 +28259,7 @@
 
 
 /***/ },
-/* 209 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28202,7 +28282,7 @@
 
 
 /***/ },
-/* 210 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28225,7 +28305,7 @@
 
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28240,8 +28320,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="set"){
-				var Set=__webpack_require__(207);
-				var SetHeader=__webpack_require__(209);
+				var Set=__webpack_require__(206);
+				var SetHeader=__webpack_require__(208);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28340,8 +28420,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28350,7 +28430,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28393,8 +28473,8 @@
 						}
 						if(data.state == 1){
 							that.makeText(data.result,1000);
-							var Set=__webpack_require__(207);
-							var SetHeader=__webpack_require__(209);
+							var Set=__webpack_require__(206);
+							var SetHeader=__webpack_require__(208);
 							ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 							ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 							ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28422,7 +28502,7 @@
 
 
 /***/ },
-/* 212 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28445,7 +28525,7 @@
 
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28460,8 +28540,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="set"){
-				var Set=__webpack_require__(207);
-				var SetHeader=__webpack_require__(209);
+				var Set=__webpack_require__(206);
+				var SetHeader=__webpack_require__(208);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28543,8 +28623,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28553,7 +28633,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28566,8 +28646,8 @@
 	//===============点击确认===========================
 			$(".queren").click(function(){
 				if(that.props.type=="set"){
-					var Set=__webpack_require__(207);
-					var SetHeader=__webpack_require__(209);
+					var Set=__webpack_require__(206);
+					var SetHeader=__webpack_require__(208);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28585,7 +28665,7 @@
 
 
 /***/ },
-/* 214 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28608,7 +28688,7 @@
 
 
 /***/ },
-/* 215 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28623,8 +28703,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="set"){
-				var Set=__webpack_require__(207);
-				var SetHeader=__webpack_require__(209);
+				var Set=__webpack_require__(206);
+				var SetHeader=__webpack_require__(208);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Set, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28712,8 +28792,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28722,7 +28802,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28755,7 +28835,7 @@
 
 
 /***/ },
-/* 216 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28778,7 +28858,7 @@
 
 
 /***/ },
-/* 217 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28800,7 +28880,7 @@
 
 
 /***/ },
-/* 218 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28809,56 +28889,56 @@
 		
 		backHandels:function(){
 			if(this.props.type=="home"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {type: "home"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.type=="user"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {type: "user"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.list=="list"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {list: "list"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.kind=="kind"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {kind: "kind"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.cart=="cart"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {cart: "cart"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.collect=="collect"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {collect: "collect"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.myeval=="myeval"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28889,7 +28969,7 @@
 
 
 /***/ },
-/* 219 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -28898,50 +28978,50 @@
 		
 		backHandels:function(){
 			if(this.props.type=="home"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {type: "home"}),document.getElementById("header"));
 			}else if(this.props.type=="user"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {type: "user"}),document.getElementById("header"));
 			}else if(this.props.list=="list"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {list: "list"}),document.getElementById("header"));
 			}else if(this.props.kind=="kind"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {kind: "kind"}),document.getElementById("header"));
 			}else if(this.props.cart=="cart"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {cart: "cart"}),document.getElementById("header"));
 			}else if(this.props.collect=="collect"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(LoginHeader, {collect: "collect"}),document.getElementById("header"));
 			}else if(this.props.myeval=="myeval"){
-				var Login=__webpack_require__(202);
-				var LoginHeader=__webpack_require__(205);
+				var Login=__webpack_require__(201);
+				var LoginHeader=__webpack_require__(204);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Login, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -28971,7 +29051,7 @@
 
 
 /***/ },
-/* 220 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -29024,7 +29104,7 @@
 
 
 /***/ },
-/* 221 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -29033,40 +29113,40 @@
 		
 		backHandels:function(){
 			if(this.props.type=="home"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {type: "home"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.type=="user"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {type: "user"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.list=="list"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {list: "list"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.kind=="kind"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(FindPasswordHeader, {kind: "kind"}),document.getElementById("header"));
 				$("#footer").hide();
 			}else if(this.props.cart=="cart"){
-				var FindPassword=__webpack_require__(203);
-				var FindPasswordHeader=__webpack_require__(219);
+				var FindPassword=__webpack_require__(202);
+				var FindPasswordHeader=__webpack_require__(218);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(FindPassword, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29097,7 +29177,7 @@
 
 
 /***/ },
-/* 222 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -29119,8 +29199,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29503,8 +29583,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29513,7 +29593,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29545,8 +29625,8 @@
 			$(".mainn").click(function(){
 				var name=$(this).attr("data-name");
 				var type=$(this).attr("data-type");
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: type, name: name}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29576,8 +29656,8 @@
 			});	
 	//========点击马上评价========================================
 			$(".goEval").click(function(){
-				var OrderEval=__webpack_require__(229);
-				var OrderEvalHeader=__webpack_require__(231);
+				var OrderEval=__webpack_require__(228);
+				var OrderEvalHeader=__webpack_require__(230);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderEval, {type1: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29587,8 +29667,8 @@
 			});
 	//============点击确认收货==================
 			$(".confirm_shouhuo").click(function(){
-				var DealSuccess=__webpack_require__(228);
-				var DealSuccessHeader=__webpack_require__(230);
+				var DealSuccess=__webpack_require__(227);
+				var DealSuccessHeader=__webpack_require__(229);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(DealSuccess, {type2: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29608,7 +29688,7 @@
 
 
 /***/ },
-/* 223 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -29623,8 +29703,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="myorder"){
-				var MyOrder=__webpack_require__(222);
-				var MyOrderHeader=__webpack_require__(224);
+				var MyOrder=__webpack_require__(221);
+				var MyOrderHeader=__webpack_require__(223);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyOrder, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29632,8 +29712,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="refund"){
-				var Refund=__webpack_require__(225);
-				var RefundHeader=__webpack_require__(227);
+				var Refund=__webpack_require__(224);
+				var RefundHeader=__webpack_require__(226);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Refund, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29842,8 +29922,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {refund: "refund"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29852,7 +29932,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29869,8 +29949,8 @@
 				var type=that.props.type;
 				alert(type)
 				if($(".footer .right span").eq(index).text()=="确认收货"){
-					var DealSuccess=__webpack_require__(228);
-					var DealSuccessHeader=__webpack_require__(230);
+					var DealSuccess=__webpack_require__(227);
+					var DealSuccessHeader=__webpack_require__(229);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(DealSuccess, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29878,8 +29958,8 @@
 					$("#footer").hide();
 					$("#header").hide();
 				}else if($(".footer .right span").eq(index).text()=="退款"){
-					var TuiKuan=__webpack_require__(232);
-					var TuiKuanHeader=__webpack_require__(233);
+					var TuiKuan=__webpack_require__(231);
+					var TuiKuanHeader=__webpack_require__(232);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(TuiKuan, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -29909,7 +29989,7 @@
 
 
 /***/ },
-/* 224 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -29931,7 +30011,7 @@
 
 
 /***/ },
-/* 225 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -29946,8 +30026,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30136,8 +30216,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30146,7 +30226,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30164,8 +30244,8 @@
 			});
 	//===============点击查看详情跳转到订单详情
 			$(".to_orderdetail").click(function(){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "refund"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30185,7 +30265,7 @@
 
 
 /***/ },
-/* 226 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30208,7 +30288,7 @@
 
 
 /***/ },
-/* 227 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30229,7 +30309,7 @@
 
 
 /***/ },
-/* 228 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30244,8 +30324,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type2=="myorder"){
-				var MyOrder=__webpack_require__(222);
-				var MyOrderHeader=__webpack_require__(224);
+				var MyOrder=__webpack_require__(221);
+				var MyOrderHeader=__webpack_require__(223);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyOrder, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30253,8 +30333,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="myorder"){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30262,8 +30342,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="refund"){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "refund"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30350,8 +30430,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30360,7 +30440,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30374,8 +30454,8 @@
 			$(".to_orderEval").click(function(){
 				var type=that.props.type;
 				var type2=that.props.type2;
-				var OrderEval=__webpack_require__(229);
-				var OrderEvalHeader=__webpack_require__(231);
+				var OrderEval=__webpack_require__(228);
+				var OrderEvalHeader=__webpack_require__(230);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderEval, {type: type, type2: type2}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30394,7 +30474,7 @@
 
 
 /***/ },
-/* 229 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30409,8 +30489,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type1=="myorder"){
-				var MyOrder=__webpack_require__(222);
-				var MyOrderHeader=__webpack_require__(224);
+				var MyOrder=__webpack_require__(221);
+				var MyOrderHeader=__webpack_require__(223);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MyOrder, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30418,8 +30498,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="myorder"){
-				var DealSuccess=__webpack_require__(228);
-				var DealSuccessHeader=__webpack_require__(230);
+				var DealSuccess=__webpack_require__(227);
+				var DealSuccessHeader=__webpack_require__(229);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(DealSuccess, {type: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30427,8 +30507,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="refund"){
-				var DealSuccess=__webpack_require__(228);
-				var DealSuccessHeader=__webpack_require__(230);
+				var DealSuccess=__webpack_require__(227);
+				var DealSuccessHeader=__webpack_require__(229);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(DealSuccess, {type: "refund"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30436,8 +30516,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type2=="myorder"){
-				var DealSuccess=__webpack_require__(228);
-				var DealSuccessHeader=__webpack_require__(230);
+				var DealSuccess=__webpack_require__(227);
+				var DealSuccessHeader=__webpack_require__(229);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(DealSuccess, {type2: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30593,8 +30673,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30603,7 +30683,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30629,8 +30709,8 @@
 			$(".tijiao_pingjia").click(function(){
 				var indexTo=$(this).index();
 				if(that.props.type=="myorder"){
-					var MyOrder=__webpack_require__(222);
-					var MyOrderHeader=__webpack_require__(224);
+					var MyOrder=__webpack_require__(221);
+					var MyOrderHeader=__webpack_require__(223);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(MyOrder, {type: "user", indexOk: indexTo}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30638,8 +30718,8 @@
 					$("#footer").hide();
 					$("#header").hide();
 				}else if(that.props.type=="refund"){
-					var Refund=__webpack_require__(225);
-					var RefundHeader=__webpack_require__(227);
+					var Refund=__webpack_require__(224);
+					var RefundHeader=__webpack_require__(226);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Refund, {type: "user"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30647,8 +30727,8 @@
 					$("#footer").hide();
 					$("#header").hide();
 				}else if(that.props.type1=="myorder"){
-					var MyOrder=__webpack_require__(222);
-					var MyOrderHeader=__webpack_require__(224);
+					var MyOrder=__webpack_require__(221);
+					var MyOrderHeader=__webpack_require__(223);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(MyOrder, {type: "user", indexOk: indexTo}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30656,8 +30736,8 @@
 					$("#footer").hide();
 					$("#header").hide();
 				}else if(that.props.type2=="myorder"){
-					var MyOrder=__webpack_require__(222);
-					var MyOrderHeader=__webpack_require__(224);
+					var MyOrder=__webpack_require__(221);
+					var MyOrderHeader=__webpack_require__(223);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(MyOrder, {type: "user", indexOk: indexTo}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30678,7 +30758,7 @@
 
 
 /***/ },
-/* 230 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30701,7 +30781,7 @@
 
 
 /***/ },
-/* 231 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	 var React=__webpack_require__(1);
@@ -30724,7 +30804,7 @@
 
 
 /***/ },
-/* 232 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30739,8 +30819,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="myorder"){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "myorder"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30748,8 +30828,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.type=="refund"){
-				var OrderDetail=__webpack_require__(223);
-				var OrderDetailHeader=__webpack_require__(226);
+				var OrderDetail=__webpack_require__(222);
+				var OrderDetailHeader=__webpack_require__(225);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(OrderDetail, {type: "refund"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30836,8 +30916,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30846,7 +30926,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30859,8 +30939,8 @@
 	//============点击提交按钮===========================
 			$(".tijiao").click(function(){
 				if(that.props.type=="myorder"){
-					var OrderDetail=__webpack_require__(223);
-					var OrderDetailHeader=__webpack_require__(226);
+					var OrderDetail=__webpack_require__(222);
+					var OrderDetailHeader=__webpack_require__(225);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(OrderDetail, {type: "myorder", name: "tuikuan_shenqing"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30868,8 +30948,8 @@
 					$("#footer").hide();
 					$("#header").hide();
 				}else if(that.props.type=="refund"){
-					var OrderDetail=__webpack_require__(223);
-					var OrderDetailHeader=__webpack_require__(226);
+					var OrderDetail=__webpack_require__(222);
+					var OrderDetailHeader=__webpack_require__(225);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(OrderDetail, {type: "refund", name: "tuikuan_shenqing"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -30889,7 +30969,7 @@
 
 
 /***/ },
-/* 233 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	 var React=__webpack_require__(1);
@@ -30912,7 +30992,7 @@
 
 
 /***/ },
-/* 234 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -30927,8 +31007,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31026,8 +31106,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31036,7 +31116,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31048,8 +31128,8 @@
 			});
 	//============点击充值		
 			$(".addmoney").click(function(){
-				var VoucherCenter=__webpack_require__(235);
-				var VoucherCenterHeader=__webpack_require__(237);
+				var VoucherCenter=__webpack_require__(234);
+				var VoucherCenterHeader=__webpack_require__(236);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(VoucherCenter, {type: "mypurse"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31059,8 +31139,8 @@
 			});
 	//==============点击零钱明细
 			$(".lingqian").click(function(){
-				var Balance=__webpack_require__(238);
-				var BalanceHeader=__webpack_require__(240);
+				var Balance=__webpack_require__(237);
+				var BalanceHeader=__webpack_require__(239);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Balance, {type: "mypurse"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31079,7 +31159,7 @@
 
 
 /***/ },
-/* 235 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31094,8 +31174,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="mypurse"){
-				var Mypurse=__webpack_require__(234);
-				var MypurseHeader=__webpack_require__(236);
+				var Mypurse=__webpack_require__(233);
+				var MypurseHeader=__webpack_require__(235);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Mypurse, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31243,8 +31323,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31253,7 +31333,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31293,7 +31373,7 @@
 
 
 /***/ },
-/* 236 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31316,7 +31396,7 @@
 
 
 /***/ },
-/* 237 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31339,7 +31419,7 @@
 
 
 /***/ },
-/* 238 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31354,8 +31434,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="mypurse"){
-				var Mypurse=__webpack_require__(234);
-				var MypurseHeader=__webpack_require__(236);
+				var Mypurse=__webpack_require__(233);
+				var MypurseHeader=__webpack_require__(235);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Mypurse, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31478,8 +31558,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31488,7 +31568,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31511,8 +31591,8 @@
 	//============点击每一笔的余额明细到余额详情
 			$(".balance_main li").click(function(){
 	//			alert($(this).index())
-				var MingXi=__webpack_require__(239);
-				var MingXiHeader=__webpack_require__(241);
+				var MingXi=__webpack_require__(238);
+				var MingXiHeader=__webpack_require__(240);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MingXi, {type: "balance"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31533,7 +31613,7 @@
 
 
 /***/ },
-/* 239 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31548,8 +31628,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="balance"){
-				var Balance=__webpack_require__(238);
-				var BalanceHeader=__webpack_require__(240);
+				var Balance=__webpack_require__(237);
+				var BalanceHeader=__webpack_require__(239);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Balance, {type: "mypurse"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31646,8 +31726,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31656,7 +31736,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31684,7 +31764,7 @@
 
 
 /***/ },
-/* 240 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31707,7 +31787,7 @@
 
 
 /***/ },
-/* 241 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31730,7 +31810,7 @@
 
 
 /***/ },
-/* 242 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31745,8 +31825,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31852,8 +31932,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31862,7 +31942,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31874,8 +31954,8 @@
 			});
 	//======================点击评价里的每个商品跳转到对应的详情
 			$(".orderMain").click(function(){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -31894,7 +31974,7 @@
 
 
 /***/ },
-/* 243 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31917,7 +31997,7 @@
 
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31983,7 +32063,7 @@
 
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -31998,8 +32078,8 @@
 		
 		backHandel:function(){
 			if(this.props.type=="user"){
-				var User=__webpack_require__(197);
-				var UserHeader=__webpack_require__(206);
+				var User=__webpack_require__(196);
+				var UserHeader=__webpack_require__(205);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(User, null),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32099,19 +32179,19 @@
 			});
 			$(".messageBox li").click(function(){
 				var index=$(this).index();
-				var type=$(this).attr("data-type");
+				var type1=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
+					ReactDOM.render(React.createElement(NewsCenter, {type1: type1}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(NewsCenterHeader, {type: type}),document.getElementById("header"));
+					ReactDOM.render(React.createElement(NewsCenterHeader, {type1: type1}),document.getElementById("header"));
 					$("#header").show();
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32123,8 +32203,8 @@
 			});
 	//============点击更多修改昵称============================
 			$(".nicheng").click(function(){
-				var ChangeName=__webpack_require__(246);
-				var ChangeNameHeader=__webpack_require__(248);
+				var ChangeName=__webpack_require__(245);
+				var ChangeNameHeader=__webpack_require__(247);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeName, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32135,8 +32215,8 @@
 
 	//============点击更多修改收货地址=================
 			$(".shou_dizhi").click(function(){
-				var ChangeAddress=__webpack_require__(249);
-				var ChangeAddressHeader=__webpack_require__(251);
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32156,7 +32236,7 @@
 
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -32171,8 +32251,8 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="mineziliao"){
-				var MineZiliao=__webpack_require__(245);
-				var MineZiliaoHeader=__webpack_require__(247);
+				var MineZiliao=__webpack_require__(244);
+				var MineZiliaoHeader=__webpack_require__(246);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MineZiliao, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32256,8 +32336,8 @@
 				var index=$(this).index();
 				var type=$(this).attr("data-type");
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32266,7 +32346,7 @@
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32278,8 +32358,8 @@
 			});
 	//==============点击确认=======================================
 			$(".queren").click(function(){
-				var MineZiliao=__webpack_require__(245);
-				var MineZiliaoHeader=__webpack_require__(247);
+				var MineZiliao=__webpack_require__(244);
+				var MineZiliaoHeader=__webpack_require__(246);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MineZiliao, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32299,7 +32379,7 @@
 
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -32322,7 +32402,7 @@
 
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -32345,7 +32425,7 @@
 
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -32363,14 +32443,77 @@
 		backHandel:function(){
 			console.log(this.props.type)
 			if(this.props.type=="mineziliao"){
-				var MineZiliao=__webpack_require__(245);
-				var MineZiliaoHeader=__webpack_require__(247);
+				var MineZiliao=__webpack_require__(244);
+				var MineZiliaoHeader=__webpack_require__(246);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(MineZiliao, {type: "user"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(MineZiliaoHeader, {type: "user"}),document.getElementById("header"));
 				$("#footer").hide();
 				$("#header").hide();
+			}else if(this.props.type=="home"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {type: "home"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			}else if(this.props.list=="list"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {list: "list"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			}else if(this.props.collect=="collect"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			}else if(this.props.kind=="kind"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			}else if(this.props.cart=="cart"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			}else if(this.props.cart1=="cart"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {cart1: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {cart1: "cart"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
+			}else if(this.props.myeval=="myeval"){
+				var FirmOrder=__webpack_require__(249);
+				var FirmOrderHeader=__webpack_require__(251);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(FirmOrder, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(FirmOrderHeader, {myeval: "myeval"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").show();
 			}
 		},
 		componentWillMount:function(){
@@ -32518,19 +32661,25 @@
 			});
 			$(".messageBox li").click(function(){
 				var index=$(this).index();
-				var type=$(this).attr("data-type");
+				var kind=that.props.kind; 
+				var type=that.props.type;
+				var list=that.props.list;
+				var collect=that.props.collect;
+				var cart=that.props.cart;
+				var cart1=that.props.cart1;
+				var myeval=that.props.myeval;
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
+					ReactDOM.render(React.createElement(NewsCenter, {kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(NewsCenterHeader, {type: type}),document.getElementById("header"));
+					ReactDOM.render(React.createElement(NewsCenterHeader, {kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("header"));
 					$("#header").show();
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -32595,23 +32744,38 @@
 			});
 	//===========点击编辑 跳转到编辑地址===============================
 			$(".bianji").click(function(){
-				var EditorAddress=__webpack_require__(250);
-				var EditorAddressHeader=__webpack_require__(252);
+				var address_id = $(this).parents('li').attr('data-address_id');
+				var type=that.props.type;
+				var kind=that.props.kind;
+				var list=that.props.list;
+				var collect=that.props.collect;
+				var cart=that.props.cart;
+				var cart1=that.props.cart1;
+				var myeval=that.props.myeval;
+				var EditorAddress=__webpack_require__(252);
+				var EditorAddressHeader=__webpack_require__(253);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(EditorAddress, {type: "changeaddress"}),document.getElementById("content"));
+				ReactDOM.render(React.createElement(EditorAddress, {address_id: address_id, kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(EditorAddressHeader, {type: "changeaddress"}),document.getElementById("header"));
+				ReactDOM.render(React.createElement(EditorAddressHeader, {address_id: address_id, kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("header"));
 				$("#header").hide();
 				$("#footer").hide();
 			});
 	//=============点击新增收货地址跳转到这一页===============================		
 			$(".foot_address").click(function(){
-				var AddAddress=__webpack_require__(253);
-				var AddAddressHeader=__webpack_require__(254);
+				var type=that.props.type;
+				var kind=that.props.kind;
+				var list=that.props.list;
+				var collect=that.props.collect;
+				var cart=that.props.cart;
+				var cart1=that.props.cart1;
+				var myeval=that.props.myeval;
+				var AddAddress=__webpack_require__(254);
+				var AddAddressHeader=__webpack_require__(255);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(AddAddress, {type: "changeaddress"}),document.getElementById("content"));
+				ReactDOM.render(React.createElement(AddAddress, {kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(AddAddressHeader, {type: "changeaddress"}),document.getElementById("header"));
+				ReactDOM.render(React.createElement(AddAddressHeader, {kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("header"));
 				$("#header").hide();
 				$("#footer").hide();
 			})
@@ -32625,7 +32789,347 @@
 
 
 /***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var FirmOrder=React.createClass({displayName: "FirmOrder",
+		getInitialState:function(){
+			return{
+				kindList:""
+			}
+		},
+		componentWillMount:function(){
+			var that=this;
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "firmOrderContent"}, 
+					React.createElement("div", {className: "delivery_address"}, 
+						React.createElement("div", {className: "address_top"}, 
+							React.createElement("div", {className: "address_logo"}, 
+								React.createElement("img", {src: "img/firmOrder2.png"})
+							), 
+							React.createElement("div", {className: "address_detail"}, 
+								React.createElement("p", null, 
+									React.createElement("span", null, "收货人："), 
+									React.createElement("span", null, "安二牛"), 
+									React.createElement("span", null, "15030197739")
+								), 
+								React.createElement("p", null, 
+									React.createElement("span", null, "收货地址："), 
+									React.createElement("span", null, "河南省保定市望都县温泉花园30号楼1单元301")
+								)
+							), 
+							React.createElement("div", {className: "more_jiantou"}, 
+								React.createElement("img", {src: "img/home_more_.png"})
+							)
+						), 
+						React.createElement("div", {className: "address_bottom"}, 
+							React.createElement("img", {src: "img/firmOrder1.png"})
+						)
+					), 
+					React.createElement("ul", {className: "goods_shop"}, 
+						React.createElement("li", null, 
+							React.createElement("div", {className: "shopName"}, 
+								React.createElement("span", null, "开封"), 
+								React.createElement("span", null, "天采广告商城")
+							), 
+							React.createElement("div", {className: "goodsproduce"}, 
+								React.createElement("div", {className: "goodsproduce_left"}, 
+									React.createElement("div", {className: "goodsproduce_left_img"}, 
+										React.createElement("img", {src: "img/detail_img.png"})
+									)
+								), 
+								React.createElement("div", {className: "goodsproduce_right"}, 
+									React.createElement("p", null, "250g专用白卡竖版覆盖抹手提袋 普通棉绳T111 250g白卡 1000"), 
+									React.createElement("p", null, 
+										React.createElement("span", null, "尺寸选择："), 
+										React.createElement("span", null, "34*26*8cm"), 
+										React.createElement("span", null, "数量选择："), 
+										React.createElement("span", null, "5000")
+									), 
+									React.createElement("p", null, 
+										React.createElement("span", null, "￥"), 
+										React.createElement("span", null, "1740"), 
+										React.createElement("span", null, "X1")
+									)
+								)
+							), 
+							React.createElement("div", {className: "payStyle"}, 
+								React.createElement("div", {className: "payStyle_paymoney"}, 
+									React.createElement("div", {className: "payStyle_paymoney_left"}, "支付方式"), 
+									React.createElement("div", {className: "payStyle_paymoney_right"}, 
+										React.createElement("span", null, "请选择"), 
+										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
+									)
+								), 
+								React.createElement("div", {className: "payStyle_payaddress"}, 
+									React.createElement("div", {className: "payStyle_payaddress_left"}, "配送方式"), 
+									React.createElement("div", {className: "payStyle_payaddress_right"}, 
+										React.createElement("span", null, "请选择"), 
+										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
+									)
+								)
+							), 
+							React.createElement("div", {className: "liuyan"}, 
+								React.createElement("span", null, "买家留言:"), 
+								React.createElement("input", {type: "text", placeholder: "选填:对本次交易的说明(建议填写已和卖家协商过的内容)"})
+							), 
+							React.createElement("div", {className: "goods_number_price"}, 
+								React.createElement("div", {className: "goods_number_price_all"}, 
+									React.createElement("span", null, "共"), 
+									React.createElement("span", null, "1"), 
+									React.createElement("span", null, "件商品"), 
+									React.createElement("span", null, "小计："), 
+									React.createElement("span", null, "￥"), 
+									React.createElement("span", null, "1740")
+								)
+							)
+						), 
+						React.createElement("li", null, 
+							React.createElement("div", {className: "shopName"}, 
+								React.createElement("span", null, "开封"), 
+								React.createElement("span", null, "天采广告商城")
+							), 
+							React.createElement("div", {className: "goodsproduce"}, 
+								React.createElement("div", {className: "goodsproduce_left"}, 
+									React.createElement("div", {className: "goodsproduce_left_img"}, 
+										React.createElement("img", {src: "img/detail_img.png"})
+									)
+								), 
+								React.createElement("div", {className: "goodsproduce_right"}, 
+									React.createElement("p", null, "250g专用白卡竖版覆盖抹手提袋 普通棉绳T111 250g白卡 1000"), 
+									React.createElement("p", null, 
+										React.createElement("span", null, "尺寸选择："), 
+										React.createElement("span", null, "34*26*8cm"), 
+										React.createElement("span", null, "数量选择："), 
+										React.createElement("span", null, "5000")
+									), 
+									React.createElement("p", null, 
+										React.createElement("span", null, "￥"), 
+										React.createElement("span", null, "1740"), 
+										React.createElement("span", null, "X1")
+									)
+								)
+							), 
+							React.createElement("div", {className: "payStyle"}, 
+								React.createElement("div", {className: "payStyle_paymoney"}, 
+									React.createElement("div", {className: "payStyle_paymoney_left"}, "支付方式"), 
+									React.createElement("div", {className: "payStyle_paymoney_right"}, 
+										React.createElement("span", null, "请选择"), 
+										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
+									)
+								), 
+								React.createElement("div", {className: "payStyle_payaddress"}, 
+									React.createElement("div", {className: "payStyle_payaddress_left"}, "配送方式"), 
+									React.createElement("div", {className: "payStyle_payaddress_right"}, 
+										React.createElement("span", null, "请选择"), 
+										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
+									)
+								)
+							), 
+							React.createElement("div", {className: "liuyan"}, 
+								React.createElement("span", null, "买家留言:"), 
+								React.createElement("input", {type: "text", placeholder: "选填:对本次交易的说明(建议填写已和卖家协商过的内容)"})
+							), 
+							React.createElement("div", {className: "goods_number_price"}, 
+								React.createElement("div", {className: "goods_number_price_all"}, 
+									React.createElement("span", null, "共"), 
+									React.createElement("span", null, "1"), 
+									React.createElement("span", null, "件商品"), 
+									React.createElement("span", null, "小计："), 
+									React.createElement("span", null, "￥"), 
+									React.createElement("span", null, "1740")
+								)
+							)
+						)
+						
+						
+						
+					), 
+					React.createElement("div", {className: "firmOrder_footer"}, 
+						React.createElement("div", {className: "firmOrder_footer_all"}, 
+							React.createElement("div", {className: "firmOrder_footer_all_left"}, 
+								React.createElement("span", null, "合计："), 
+								React.createElement("span", null, "￥"), 
+								React.createElement("span", null, "1740")
+							), 
+							React.createElement("div", {className: "firmOrder_footer_all_right"}, "提交订单")
+						)
+					)
+					
+				)
+				
+			)
+		},
+		componentDidMount:function(){
+			var that=this;
+			
+	//=========更改收货地址
+			$(".delivery_address").click(function(){
+				var kind=that.props.kind; 
+				var type=that.props.type;
+				var list=that.props.list;
+				var collect=that.props.collect;
+				var cart=that.props.cart;
+				var cart1=that.props.cart1;
+				var myeval=that.props.myeval;
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {kind: kind, type: type, list: list, collect: collect, cart: cart, cart1: cart1, myeval: myeval}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			})
+			
+			
+		},
+		componentDidUpdate:function(){
+
+			
+			
+		}
+	});
+	module.exports=FirmOrder;
+
+
+/***/ },
 /* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var ChangeAddressHeader=React.createClass({displayName: "ChangeAddressHeader",
+
+		render:function(){
+			return(
+				React.createElement("div", {className: "changeaddressHeader"}
+					
+				)
+			)
+		},
+		componentDidMount:function(){
+		
+
+		}
+	});
+	module.exports=ChangeAddressHeader;
+
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var FirmOrderHeader=React.createClass({displayName: "FirmOrderHeader",
+		backHandel:function(){
+			if(this.props.type=="home"){
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {type: "home"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			}else if(this.props.list=="list"){
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {list: "list"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			}else if(this.props.kind=="kind"){
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			}else if(this.props.cart1=="cart"){
+				var Cart=__webpack_require__(192);
+				var CartHeader=__webpack_require__(194);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Cart, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(CartHeader, {type: "home"}),document.getElementById("header"));
+				$("#footer").show();
+				$("#header").hide();
+			}else if(this.props.cart=="cart"){
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			}else if(this.props.collect=="collect"){
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			}else if(this.props.myeval=="myeval"){
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Detail, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(DetailHeader, {myeval: "myeval"}),document.getElementById("header"));
+				$("#footer").hide();
+				$("#header").hide();
+			}
+
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "firmOrderHeader"}, 
+					React.createElement("div", {className: "left_news", id: "goBack", onClick: this.backHandel}, 
+						React.createElement("img", {src: "img/back.png"})
+					), 
+					React.createElement("div", {className: "center_news"}, 
+						"确认订单"
+					)
+
+				)
+			)
+		},
+		componentDidMount:function(){
+	//		$("#goBack").click(function(){
+	////			console.log("eeeeee");
+	//			$("#footer ul li").eq(0).trigger("click")
+	//			var Home=require("./Home");
+	//			var HomeHeader=require("./HomeHeader");
+	//			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+	//			ReactDOM.render(<Home />,document.getElementById("content"));
+	//			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+	//			ReactDOM.render(<HomeHeader />,document.getElementById("header"));
+	//			$("#header").show();
+	//			$("#footer").show();
+	//		});
+			
+		}
+	});
+	module.exports=FirmOrderHeader;
+
+
+/***/ },
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -32634,25 +33138,135 @@
 	var EditorAddress=React.createClass({displayName: "EditorAddress",
 		getInitialState:function(){
 			return{
-				kindList:""
+				kindList:"",
+				user:JSON.parse(localStorage.getItem('users')),
+				shop_id:40,
+				url_interface:"m.chepc.cn"
 			}
 		},
 		backHandel:function(){
-			console.log(this.props.type)
-			if(this.props.type=="changeaddress"){
-				var ChangeAddress=__webpack_require__(249);
-				var ChangeAddressHeader=__webpack_require__(251);
+			if(this.props.type=="mineziliao"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(ChangeAddressHeader, {type: "mineziliao"}),document.getElementById("header"));
 				$("#header").hide();
 				$("#footer").hide();
+			}else if(this.props.type=="home"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {type: "home"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.list=="list"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {list: "list"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.collect=="collect"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.kind=="kind"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart=="cart"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart1=="cart"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {cart1: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {cart1: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.myeval=="myeval"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {myeval: "myeval"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
 			}
 		},
 		componentWillMount:function(){
-			var that=this;
-			
+			var that	   	  = this;
+			var address_id 	  = that.props.address_id;
+			var url_interface = that.state.url_interface;
+			console.log(address_id+'-->'+url_interface)
+			$.ajax({
+				type:"get",
+				url:"http://"+url_interface+"/sopa/User/addressbyid",
+				data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',address_id:address_id},
+				success:function(data){
+						console.log(data);
+					if(data.status == 1){
+						console.log(data.result);
+						var res = data.result;
+						var consignee = res.consignee;
+						var mobile    = res.mobile;
+						console.log(mobile);
+						var content = [];
+					content.push(React.createElement("ul", {className: "editorAddress_main", key: Math.random}, 
+									React.createElement("li", null, 
+										React.createElement("span", null, "收货人"), 
+										React.createElement("input", {className: "consignee", type: "text"})
+									), 
+									React.createElement("li", null, 
+										React.createElement("span", null, "联系电话"), 
+										React.createElement("input", {className: "mobile", type: "text"})
+									), 
+									React.createElement("li", null, 
+										React.createElement("span", null, "所在地址"), 
+										React.createElement("span", null, res.province_name, " ", res.city_name, " ", res.district_name), 
+										React.createElement("span", null, React.createElement("img", {src: "img/set_next.png"})), 
+										React.createElement("input", {className: "address_id", type: "hidden", value: address_id}), 
+										React.createElement("input", {className: "province", type: "hidden", value: res.province}), 
+										React.createElement("input", {className: "city", type: "hidden", value: res.city}), 
+										React.createElement("input", {className: "district", type: "hidden", value: res.district})
+									), 
+									React.createElement("textarea", {className: "address"}, res.address), 
+									React.createElement(App, null)
+								 ));
+								 
+					}
+					that.setState({
+						address_res:content,
+						consignee:consignee,
+						mobile:mobile
+					})
+				}
+			});
 		},
 		render:function(){
 			return(
@@ -32703,25 +33317,7 @@
 							)
 						)
 					), 
-					React.createElement("ul", {className: "editorAddress_main"}, 
-						React.createElement("li", null, 
-							React.createElement("span", null, "收货人"), 
-							React.createElement("input", {type: "text"})
-						), 
-						React.createElement("li", null, 
-							React.createElement("span", null, "联系电话"), 
-							React.createElement("input", {type: "text"})
-						), 
-						React.createElement("li", null, 
-							React.createElement("span", null, "所在地址"), 
-							React.createElement("span", null, "河南省郑州市管城回族区"), 
-							React.createElement("span", null, React.createElement("img", {src: "img/set_next.png"}))
-						), 
-						React.createElement("textarea", {placeholder: "请输入详细地址"}), 
-						React.createElement(App, null)
-						
-						
-					), 
+					this.state.address_res, 
 					React.createElement("div", {className: "chance_style"}, 
 						React.createElement("div", {className: "left"}, "删除"), 
 						React.createElement("div", {className: "right"}, "保存")
@@ -32731,11 +33327,7 @@
 			)
 		},
 		componentDidMount:function(){
-			$(".editorAddress_main").find("li").eq(0).find("input").val("闻卓")
-			$(".editorAddress_main").find("li").eq(1).find("input").val("18888888888")
-			
-			
-			
+			var that=this;
 			$("#goMessageBox").click(function(){
 				$(".messageBox").css("display","block")
 			});
@@ -32744,28 +33336,42 @@
 			});
 			$(".messageBox li").click(function(){
 				var index=$(this).index();
-				var type=$(this).attr("data-type");
+				var kind5=that.props.kind; 
+				var type5=that.props.type;
+				var list5=that.props.list;
+				var collect5=that.props.collect;
+				var cart5=that.props.cart;
+				var cart15=that.props.cart1;
+				var myeval5=that.props.myeval;
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
+					ReactDOM.render(React.createElement(NewsCenter, {kind5: kind5, type5: type5, list5: list5, collect5: collect5, cart5: cart5, cart15: cart15, myeval5: myeval5}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(NewsCenterHeader, {type: type}),document.getElementById("header"));
+					ReactDOM.render(React.createElement(NewsCenterHeader, {kind5: kind5, type5: type5, list5: list5, collect5: collect5, cart5: cart5, cart15: cart15, myeval5: myeval5}),document.getElementById("header"));
 					$("#header").show();
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 					ReactDOM.render(React.createElement(HomeHeader, {type: type}),document.getElementById("header"));
-					$("#header").show();
 					$("#footer").show();
 					$("#footer ul li").eq(0).trigger("click");
 				}
 			});
+
+			
+		},
+		componentDidUpdate:function(){
+	        var that 		  = this;
+			var url_interface = that.state.url_interface;
+			
+			$(".editorAddress_main").find("li").eq(0).find("input").val(that.state.consignee);
+			$(".editorAddress_main").find("li").eq(1).find("input").val(that.state.mobile);
 	//==========点击注册地址获取焦点事件===========================
 			$(".editorAddress_main li").eq(2).on("click",function(){
 				$(".area_ctrl").css("display","block");
@@ -32778,12 +33384,44 @@
 				$(".area_ctrl").removeClass("slideInUp");
 				$(".chance_style").css("display","flex");
 			});
-			
-		},
-		componentDidUpdate:function(){
-
-			
-			
+	//点击保存修改地址信息
+	     	$(".right").click(function(){
+	     		var user       = that.state.user;
+	     		var address_id = $('.address_id').val();
+	     		var mobile     = $('.mobile').val();
+	     		var consignee  = $('.consignee').val();
+	     		var province   = $('.province').val();
+	     		var city       = $('.city').val();
+	     		var district   = $('.district').val();
+	     		var address    = $('.address').val();
+	     		var type       = 'edit';
+				$.ajax({
+					type:"post",
+					url:"http://"+url_interface+"/sopa/User/addOreditAddress",
+					data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',address_id:address_id,user_id:user.user_id,mobile:mobile,consignee:consignee,province:province,city:city,district:district,address:address,type:type},
+					success:function(data){//修改成功后返回地址列表
+						if(data.status == 1){
+							that.backHandel();
+						}
+					}
+				});
+	     	});
+	//删除按钮
+			$(".left").click(function(){
+	     		var user       = that.state.user;
+	     		var address_id = $('.address_id').val();
+	     		$.ajax({
+					type:"get",
+					url:"http://"+url_interface+"/sopa/User/delAddress",
+					data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',address_id:address_id,user_id:user.user_id},
+					success:function(data){//删除后返回地址列表
+						if(data.status == 1){//删除成功
+							that.backHandel();
+						}
+					}
+				});
+			});
+				
 		}
 	});
 	/**
@@ -32803,20 +33441,33 @@
 			        var address = data[pIndex].name
 			            + data[pIndex].city[cIndex].name
 			            + data[pIndex].city[cIndex].area[aIndex].name;
-					var ids=data[pIndex].id+"----------"
-			            + data[pIndex].city[cIndex].id+"-----------"
-			            + data[pIndex].city[cIndex].area[aIndex].id;
+	//				var ids=data[pIndex].id+"----------"
+	//		            + data[pIndex].city[cIndex].id+"-----------"
+	//		            + data[pIndex].city[cIndex].area[aIndex].id;
+					var p_id=data[pIndex].id;
+					var c_id=data[pIndex].city[cIndex].id;
+					var d_id=data[pIndex].city[cIndex].area[aIndex].id;
 			        this.address = address;
-			        this.ids=ids;
+	//		        this.ids=ids;
+					this.p_id=p_id;
+					this.c_id=c_id;
+					this.d_id=d_id;
 			       //与渲染无关的数据  直接存在this对象里  如果存在State里面会导致页面脏渲染，卡顿
 			    },
 			   //===点击地址栏的确定按钮 
 			    onClick: function () {
-			        var ans = this.address;
-			        var ids='选择的对应的id'+this.ids;
-			        alert(ans);
-			        alert(ids);
-			        $(".editorAddress_main li").eq(2).find("span").eq(1).html(ans)
+			        var ans  = this.address;
+			        var p_id = this.p_id;
+			        var c_id = this.c_id;
+			        var d_id = this.d_id;
+			        console.log(p_id+'-'+c_id+'-'+d_id)
+	//		        var ids='选择的对应的id'+this.ids;
+	//		        alert(ans);
+	//		        alert(ids);
+			        $(".editorAddress_main li").eq(2).find("span").eq(1).html(ans);
+			        $(".province").val(p_id);
+			        $(".city").val(c_id);
+			        $(".district").val(d_id);
 			        $(".area_ctrl").css("display","none");
 					$(".area_ctrl").removeClass("slideInUp");
 					$(".chance_style").css("display","flex");
@@ -33057,30 +33708,7 @@
 
 
 /***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var ChangeAddressHeader=React.createClass({displayName: "ChangeAddressHeader",
-
-		render:function(){
-			return(
-				React.createElement("div", {className: "changeaddressHeader"}
-					
-				)
-			)
-		},
-		componentDidMount:function(){
-		
-
-		}
-	});
-	module.exports=ChangeAddressHeader;
-
-
-/***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -33103,7 +33731,7 @@
 
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -33116,14 +33744,76 @@
 			}
 		},
 		backHandel:function(){
-			console.log(this.props.type)
-			if(this.props.type=="changeaddress"){
-				var ChangeAddress=__webpack_require__(249);
-				var ChangeAddressHeader=__webpack_require__(251);
+			if(this.props.type=="mineziliao"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(React.createElement(ChangeAddressHeader, {type: "mineziliao"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.type=="home"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {type: "home"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.list=="list"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {list: "list"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {list: "list"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.collect=="collect"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {collect: "collect"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {collect: "collect"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.kind=="kind"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {kind: "kind"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {kind: "kind"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart=="cart"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {cart: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {cart: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.cart1=="cart"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {cart1: "cart"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {cart1: "cart"}),document.getElementById("header"));
+				$("#header").hide();
+				$("#footer").hide();
+			}else if(this.props.myeval=="myeval"){
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(ChangeAddress, {myeval: "myeval"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(ChangeAddressHeader, {myeval: "myeval"}),document.getElementById("header"));
 				$("#header").hide();
 				$("#footer").hide();
 			}
@@ -33226,19 +33916,25 @@
 			});
 			$(".messageBox li").click(function(){
 				var index=$(this).index();
-				var type=$(this).attr("data-type");
+				var kind4=that.props.kind; 
+				var type4=that.props.type;
+				var list4=that.props.list;
+				var collect4=that.props.collect;
+				var cart4=that.props.cart;
+				var cart14=that.props.cart1;
+				var myeval4=that.props.myeval;
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(NewsCenter, {type: type}),document.getElementById("content"));
+					ReactDOM.render(React.createElement(NewsCenter, {kind4: kind4, type4: type4, list4: list4, collect4: collect4, cart4: cart4, cart14: cart14, myeval4: myeval4}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(NewsCenterHeader, {type: type}),document.getElementById("header"));
+					ReactDOM.render(React.createElement(NewsCenterHeader, {kind4: kind4, type4: type4, list4: list4, collect4: collect4, cart4: cart4, cart14: cart14, myeval4: myeval4}),document.getElementById("header"));
 					$("#header").show();
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -33250,8 +33946,8 @@
 			});
 	//=======点击取消========================
 			$(".quxiao").click(function(){
-				var ChangeAddress=__webpack_require__(249);
-				var ChangeAddressHeader=__webpack_require__(251);
+				var ChangeAddress=__webpack_require__(248);
+				var ChangeAddressHeader=__webpack_require__(250);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -33271,8 +33967,8 @@
 				}else if($(".addAddress_main textarea").html()==""){
 					that.makeText("请填写详细地址",2000);
 				}else{
-					var ChangeAddress=__webpack_require__(249);
-					var ChangeAddressHeader=__webpack_require__(251);
+					var ChangeAddress=__webpack_require__(248);
+					var ChangeAddressHeader=__webpack_require__(250);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(ChangeAddress, {type: "mineziliao"}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -33575,7 +34271,7 @@
 
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -33598,564 +34294,7 @@
 
 
 /***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var FirmOrder=React.createClass({displayName: "FirmOrder",
-		getInitialState:function(){
-			return{
-				kindList:""
-			}
-		},
-		componentWillMount:function(){
-			var that=this;
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "firmOrderContent"}, 
-					React.createElement("div", {className: "delivery_address"}, 
-						React.createElement("div", {className: "address_top"}, 
-							React.createElement("div", {className: "address_logo"}, 
-								React.createElement("img", {src: "img/firmOrder2.png"})
-							), 
-							React.createElement("div", {className: "address_detail"}, 
-								React.createElement("p", null, 
-									React.createElement("span", null, "收货人："), 
-									React.createElement("span", null, "安二牛"), 
-									React.createElement("span", null, "15030197739")
-								), 
-								React.createElement("p", null, 
-									React.createElement("span", null, "收货地址："), 
-									React.createElement("span", null, "河南省保定市望都县温泉花园30号楼1单元301")
-								)
-							), 
-							React.createElement("div", {className: "more_jiantou"}, 
-								React.createElement("img", {src: "img/home_more_.png"})
-							)
-						), 
-						React.createElement("div", {className: "address_bottom"}, 
-							React.createElement("img", {src: "img/firmOrder1.png"})
-						)
-					), 
-					React.createElement("ul", {className: "goods_shop"}, 
-						React.createElement("li", null, 
-							React.createElement("div", {className: "shopName"}, 
-								React.createElement("span", null, "开封"), 
-								React.createElement("span", null, "天采广告商城")
-							), 
-							React.createElement("div", {className: "goodsproduce"}, 
-								React.createElement("div", {className: "goodsproduce_left"}, 
-									React.createElement("div", {className: "goodsproduce_left_img"}, 
-										React.createElement("img", {src: "img/detail_img.png"})
-									)
-								), 
-								React.createElement("div", {className: "goodsproduce_right"}, 
-									React.createElement("p", null, "250g专用白卡竖版覆盖抹手提袋 普通棉绳T111 250g白卡 1000"), 
-									React.createElement("p", null, 
-										React.createElement("span", null, "尺寸选择："), 
-										React.createElement("span", null, "34*26*8cm"), 
-										React.createElement("span", null, "数量选择："), 
-										React.createElement("span", null, "5000")
-									), 
-									React.createElement("p", null, 
-										React.createElement("span", null, "￥"), 
-										React.createElement("span", null, "1740"), 
-										React.createElement("span", null, "X1")
-									)
-								)
-							), 
-							React.createElement("div", {className: "payStyle"}, 
-								React.createElement("div", {className: "payStyle_paymoney"}, 
-									React.createElement("div", {className: "payStyle_paymoney_left"}, "支付方式"), 
-									React.createElement("div", {className: "payStyle_paymoney_right"}, 
-										React.createElement("span", null, "请选择"), 
-										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
-									)
-								), 
-								React.createElement("div", {className: "payStyle_payaddress"}, 
-									React.createElement("div", {className: "payStyle_payaddress_left"}, "配送方式"), 
-									React.createElement("div", {className: "payStyle_payaddress_right"}, 
-										React.createElement("span", null, "请选择"), 
-										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
-									)
-								)
-							), 
-							React.createElement("div", {className: "liuyan"}, 
-								React.createElement("span", null, "买家留言:"), 
-								React.createElement("input", {type: "text", placeholder: "选填:对本次交易的说明(建议填写已和卖家协商过的内容)"})
-							), 
-							React.createElement("div", {className: "goods_number_price"}, 
-								React.createElement("div", {className: "goods_number_price_all"}, 
-									React.createElement("span", null, "共"), 
-									React.createElement("span", null, "1"), 
-									React.createElement("span", null, "件商品"), 
-									React.createElement("span", null, "小计："), 
-									React.createElement("span", null, "￥"), 
-									React.createElement("span", null, "1740")
-								)
-							)
-						), 
-						React.createElement("li", null, 
-							React.createElement("div", {className: "shopName"}, 
-								React.createElement("span", null, "开封"), 
-								React.createElement("span", null, "天采广告商城")
-							), 
-							React.createElement("div", {className: "goodsproduce"}, 
-								React.createElement("div", {className: "goodsproduce_left"}, 
-									React.createElement("div", {className: "goodsproduce_left_img"}, 
-										React.createElement("img", {src: "img/detail_img.png"})
-									)
-								), 
-								React.createElement("div", {className: "goodsproduce_right"}, 
-									React.createElement("p", null, "250g专用白卡竖版覆盖抹手提袋 普通棉绳T111 250g白卡 1000"), 
-									React.createElement("p", null, 
-										React.createElement("span", null, "尺寸选择："), 
-										React.createElement("span", null, "34*26*8cm"), 
-										React.createElement("span", null, "数量选择："), 
-										React.createElement("span", null, "5000")
-									), 
-									React.createElement("p", null, 
-										React.createElement("span", null, "￥"), 
-										React.createElement("span", null, "1740"), 
-										React.createElement("span", null, "X1")
-									)
-								)
-							), 
-							React.createElement("div", {className: "payStyle"}, 
-								React.createElement("div", {className: "payStyle_paymoney"}, 
-									React.createElement("div", {className: "payStyle_paymoney_left"}, "支付方式"), 
-									React.createElement("div", {className: "payStyle_paymoney_right"}, 
-										React.createElement("span", null, "请选择"), 
-										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
-									)
-								), 
-								React.createElement("div", {className: "payStyle_payaddress"}, 
-									React.createElement("div", {className: "payStyle_payaddress_left"}, "配送方式"), 
-									React.createElement("div", {className: "payStyle_payaddress_right"}, 
-										React.createElement("span", null, "请选择"), 
-										React.createElement("span", null, React.createElement("img", {src: "img/home_more_.png"}))
-									)
-								)
-							), 
-							React.createElement("div", {className: "liuyan"}, 
-								React.createElement("span", null, "买家留言:"), 
-								React.createElement("input", {type: "text", placeholder: "选填:对本次交易的说明(建议填写已和卖家协商过的内容)"})
-							), 
-							React.createElement("div", {className: "goods_number_price"}, 
-								React.createElement("div", {className: "goods_number_price_all"}, 
-									React.createElement("span", null, "共"), 
-									React.createElement("span", null, "1"), 
-									React.createElement("span", null, "件商品"), 
-									React.createElement("span", null, "小计："), 
-									React.createElement("span", null, "￥"), 
-									React.createElement("span", null, "1740")
-								)
-							)
-						)
-						
-						
-						
-					), 
-					React.createElement("div", {className: "firmOrder_footer"}, 
-						React.createElement("div", {className: "firmOrder_footer_all"}, 
-							React.createElement("div", {className: "firmOrder_footer_all_left"}, 
-								React.createElement("span", null, "合计："), 
-								React.createElement("span", null, "￥"), 
-								React.createElement("span", null, "1740")
-							), 
-							React.createElement("div", {className: "firmOrder_footer_all_right"}, "提交订单")
-						)
-					)
-					
-				)
-				
-			)
-		},
-		componentDidMount:function(){
-			$(".newsList li").click(function(){
-				var type=$(this).attr("data-type");
-				var XinWenDetail=__webpack_require__(256);
-				var XinWenDetailHeader=__webpack_require__(257);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(XinWenDetail, null),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(XinWenDetailHeader, {type: type}),document.getElementById("header"));
-				$("#footer").hide();
-				
-			})
-			
-		},
-		componentDidUpdate:function(){
-
-			
-			
-		}
-	});
-	module.exports=FirmOrder;
-
-
-/***/ },
 /* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	//var ProList=require("./ProList");
-	var XinWenDetail=React.createClass({displayName: "XinWenDetail",
-		getInitialState:function(){
-			return{
-				kindList:""
-			}
-		},
-		componentWillMount:function(){
-			var that=this;
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "xinWenDetailContent"}, 
-					React.createElement("div", {className: "title"}, 
-						"“天采之音 相约未来”2017广告人创新论坛郑州举行"
-					), 
-					React.createElement("div", {className: "detail_time"}, 
-						React.createElement("span", null, "2017年01月16日14:42  "), 
-						React.createElement("span", null, "来源：人民网-河南频道")
-					), 
-					React.createElement("div", {className: "detail_img"}, 
-						React.createElement("img", {src: "img/xinwen_detail_03.jpg"})
-					), 
-					React.createElement("p", null, 
-						"人民网郑州1月16日电（智泓）2017广告业将会有什么新变化？" + " " +
-						"2016年的广告业又有哪些“可圈可点”？" + " " +
-						"未来，广告业将会面临什么样的机遇与挑战？……1月15日，" + " " +
-						"“天采之音，相约未来”2017广告人创新论坛郑州举行。"
-					), 
-					React.createElement("p", null, 
-						"郑州大学美术学院柯方明、河南标识行业协会会长王鹏、河南广告传媒业商会会长刘延坤等众多河南广告业大咖，" + " " +
-						"亮相论坛并发言。"
-					), 
-					React.createElement("p", null, 
-						"围绕广告业的过去和未来，论坛一致认为，为顺应文化体制改革和媒体融合大趋势，" + " " +
-						"探索广告行业发展路径，打造广告人商城和天采广告商城双平台战略，" + " " +
-						"结合B2B、B2C、O2O与一体全新B2B2B2C电商生态产业链模式，是大势所趋；“站点—供货—入驻商家—区域配送”四位一体的结合思路，" + " " +
-						"形成完整电商生态模式，" + " " +
-						"填补了目前国内广告行业电商平台空白，成为广告行业“淘宝网”。"
-					)
-					
-				)
-				
-			)
-		},
-		componentDidMount:function(){
-			
-			
-		},
-		componentDidUpdate:function(){
-
-			
-			
-		}
-	});
-	module.exports=XinWenDetail;
-
-
-/***/ },
-/* 257 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var XinWenDetailHeader=React.createClass({displayName: "XinWenDetailHeader",
-		backHandel:function(){
-	//		console.log("222"+this.props.type);
-	//		var type=this.props.type;
-	//		console.log("11"+type);
-			if(this.props.type=="xinwen"){
-				var XinWen=__webpack_require__(258);
-				var XinWenHeader=__webpack_require__(259);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(XinWen, {type: "home"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(XinWenHeader, {type: "home"}),document.getElementById("header"));
-				$("#footer").hide();
-			}
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "xinWenDetailHeader"}, 
-					React.createElement("div", {className: "left_news", id: "goBack", onClick: this.backHandel, "data-type": "newsCenter"}, 
-						React.createElement("img", {src: "img/back.png"})
-					), 
-					React.createElement("div", {className: "center_news"}, 
-						"新闻详情"
-					)
-
-				)
-			)
-		},
-		componentDidMount:function(){
-	//		$("#goBack").click(function(){
-	////			console.log("eeeeee");
-	//			$("#footer ul li").eq(0).trigger("click")
-	//			var Home=require("./Home");
-	//			var HomeHeader=require("./HomeHeader");
-	//			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-	//			ReactDOM.render(<Home />,document.getElementById("content"));
-	//			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-	//			ReactDOM.render(<HomeHeader />,document.getElementById("header"));
-	//			$("#header").show();
-	//			$("#footer").show();
-	//		});
-			
-		}
-	});
-	module.exports=XinWenDetailHeader;
-
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	//var ProList=require("./ProList");
-	var XinWen=React.createClass({displayName: "XinWen",
-		getInitialState:function(){
-			return{
-				kindList:""
-			}
-		},
-		componentWillMount:function(){
-			var that=this;
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "xinWenContent"}, 
-					React.createElement("ul", {className: "newsList"}, 
-						React.createElement("li", {"data-type": "xinwen"}, 
-							React.createElement("div", {className: "nl_newsLogo"}, 
-								React.createElement("div", {className: "nln_text"}, "通知")
-							), 
-							React.createElement("div", {className: "nl_newsMain"}, 
-								React.createElement("div", {className: "nln_title"}, 
-									React.createElement("div", {className: "nlnt_h3"}, "这是新闻标题"), 
-									React.createElement("div", {className: "nlnt_time"}, "12:30")
-								), 
-								React.createElement("div", {className: "nln_maintxt"}, 
-									"这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容"
-								)
-							)
-						), 
-						React.createElement("li", {"data-type": "xinwen"}, 
-							React.createElement("div", {className: "nl_newsLogo"}, 
-								React.createElement("div", {className: "nln_text"}, "通知")
-							), 
-							React.createElement("div", {className: "nl_newsMain"}, 
-								React.createElement("div", {className: "nln_title"}, 
-									React.createElement("h3", {className: "nlnt_h3"}, "这是新闻标题"), 
-									React.createElement("div", {className: "nlnt_time"}, "12:30")
-								), 
-								React.createElement("div", {className: "nln_maintxt"}, 
-									"这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容"
-								)
-							)
-						)
-					)
-				)
-				
-			)
-		},
-		componentDidMount:function(){
-			$(".newsList li").click(function(){
-				var type=$(this).attr("data-type");
-				var XinWenDetail=__webpack_require__(256);
-				var XinWenDetailHeader=__webpack_require__(257);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(XinWenDetail, null),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(XinWenDetailHeader, {type: type}),document.getElementById("header"));
-				$("#footer").hide();
-				
-			})
-			
-		},
-		componentDidUpdate:function(){
-
-			
-			
-		}
-	});
-	module.exports=XinWen;
-
-
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var XinWenHeader=React.createClass({displayName: "XinWenHeader",
-		backHandel:function(){
-	//		console.log("222"+this.props.type);
-	//		var type=this.props.type;
-	//		console.log("11"+type);
-			if(this.props.type=="home"){
-				var Home=__webpack_require__(183);
-				var HomeHeader=__webpack_require__(185);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(HomeHeader, null),document.getElementById("header"));
-				$("#footer").show();
-			}
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "xinWenHeader"}, 
-					React.createElement("div", {className: "left_news", id: "goBack", onClick: this.backHandel, "data-type": "newsCenter"}, 
-						React.createElement("img", {src: "img/back.png"})
-					), 
-					React.createElement("div", {className: "center_news"}, 
-						"新闻中心"
-					)
-
-				)
-			)
-		},
-		componentDidMount:function(){
-	//		$("#goBack").click(function(){
-	////			console.log("eeeeee");
-	//			$("#footer ul li").eq(0).trigger("click")
-	//			var Home=require("./Home");
-	//			var HomeHeader=require("./HomeHeader");
-	//			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-	//			ReactDOM.render(<Home />,document.getElementById("content"));
-	//			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-	//			ReactDOM.render(<HomeHeader />,document.getElementById("header"));
-	//			$("#header").show();
-	//			$("#footer").show();
-	//		});
-			
-		}
-	});
-	module.exports=XinWenHeader;
-
-
-/***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React=__webpack_require__(1);
-	var ReactDOM=__webpack_require__(36);
-	var FirmOrderHeader=React.createClass({displayName: "FirmOrderHeader",
-		backHandel:function(){
-			if(this.props.type=="home"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {type: "home"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {type: "home"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			}else if(this.props.list=="list"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {list: "list"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {list: "list"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			}else if(this.props.kind=="kind"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {kind: "kind"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {kind: "kind"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			}else if(this.props.cart1=="cart"){
-				var Cart=__webpack_require__(193);
-				var CartHeader=__webpack_require__(195);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Cart, {type: "home"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(CartHeader, {type: "home"}),document.getElementById("header"));
-				$("#footer").show();
-				$("#header").hide();
-			}else if(this.props.cart=="cart"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {cart: "cart"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {cart: "cart"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			}else if(this.props.collect=="collect"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {collect: "collect"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {collect: "collect"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			}else if(this.props.myeval=="myeval"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
-				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(React.createElement(Detail, {myeval: "myeval"}),document.getElementById("content"));
-				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(React.createElement(DetailHeader, {myeval: "myeval"}),document.getElementById("header"));
-				$("#footer").hide();
-				$("#header").hide();
-			}
-
-			
-		},
-		render:function(){
-			return(
-				React.createElement("div", {className: "firmOrderHeader"}, 
-					React.createElement("div", {className: "left_news", id: "goBack", onClick: this.backHandel}, 
-						React.createElement("img", {src: "img/back.png"})
-					), 
-					React.createElement("div", {className: "center_news"}, 
-						"确认订单"
-					)
-
-				)
-			)
-		},
-		componentDidMount:function(){
-	//		$("#goBack").click(function(){
-	////			console.log("eeeeee");
-	//			$("#footer ul li").eq(0).trigger("click")
-	//			var Home=require("./Home");
-	//			var HomeHeader=require("./HomeHeader");
-	//			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-	//			ReactDOM.render(<Home />,document.getElementById("content"));
-	//			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-	//			ReactDOM.render(<HomeHeader />,document.getElementById("header"));
-	//			$("#header").show();
-	//			$("#footer").show();
-	//		});
-			
-		}
-	});
-	module.exports=FirmOrderHeader;
-
-
-/***/ },
-/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -34172,8 +34311,8 @@
 			alert(this.props.list)*/
 			
 			if(this.props.type=="home"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {type: "home"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34183,8 +34322,8 @@
 			}else if(this.props.list=="list"){
 	//			var list=this.props.list;
 	//			alert(list)
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {list: "list"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34194,8 +34333,8 @@
 			}else if(this.props.kind=="kind"){
 	//			var list=this.props.list;
 	//			alert(list)
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {kind: "kind"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34203,8 +34342,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.cart=="cart"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {cart: "cart"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34212,8 +34351,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.collect=="collect"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {collect: "collect"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34221,8 +34360,8 @@
 				$("#footer").hide();
 				$("#header").hide();
 			}else if(this.props.myeval=="myeval"){
-				var Detail=__webpack_require__(194);
-				var DetailHeader=__webpack_require__(217);
+				var Detail=__webpack_require__(193);
+				var DetailHeader=__webpack_require__(216);
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 				ReactDOM.render(React.createElement(Detail, {myeval: "myeval"}),document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34342,24 +34481,24 @@
 			});
 			$(".messageBox li").click(function(){
 				var index=$(this).index();
-				var list=that.props.list;
-				var kind=that.props.kind;
+				var list2=that.props.list;
+				var kind2=that.props.kind;
 				var type1=that.props.type;
-				var cart=that.props.cart;
-				var collect=that.props.collect;
-				var myeval=that.props.myeval;
+				var cart3=that.props.cart;
+				var collect2=that.props.collect;
+				var myeval2=that.props.myeval;
 				if(index==0){
-					var NewsCenter=__webpack_require__(191);
-					var NewsCenterHeader=__webpack_require__(192);
+					var NewsCenter=__webpack_require__(190);
+					var NewsCenterHeader=__webpack_require__(191);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-					ReactDOM.render(React.createElement(NewsCenter, {type1: type1, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("content"));
+					ReactDOM.render(React.createElement(NewsCenter, {type1: type1, list2: list2, kind2: kind2, cart3: cart3, collect2: collect2, myeval2: myeval2}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-					ReactDOM.render(React.createElement(NewsCenterHeader, {type1: type1, list: list, kind: kind, cart: cart, collect: collect, myeval: myeval}),document.getElementById("header"));
+					ReactDOM.render(React.createElement(NewsCenterHeader, {type1: type1, list2: list2, kind2: kind2, cart3: cart3, collect2: collect2, myeval2: myeval2}),document.getElementById("header"));
 					$("#header").show();
 					$("#footer").hide();
 				}else if(index==1){
 					var Home=__webpack_require__(183);
-					var HomeHeader=__webpack_require__(185);
+					var HomeHeader=__webpack_require__(186);
 					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 					ReactDOM.render(React.createElement(Home, {type: type}),document.getElementById("content"));
 					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
@@ -34381,7 +34520,7 @@
 
 
 /***/ },
-/* 262 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React=__webpack_require__(1);
@@ -34400,6 +34539,420 @@
 		}
 	});
 	module.exports=MoreEvalHeader;
+
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var SearchHeader=React.createClass({displayName: "SearchHeader",
+		getInitialState:function(){
+			return{
+				url_interface:"m.chepc.cn"//服务器地址
+
+			}
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "searchHeader"}, 
+					React.createElement("div", {className: "search_left"}, 
+						React.createElement("div", {className: "search1"}, 
+							React.createElement("img", {src: "img/search.png"})
+						), 
+						React.createElement("div", {className: "input"}, 
+							React.createElement("input", {className: "search_name", type: "text", placeholder: "搜索天采商品"})
+						)
+					), 
+					React.createElement("div", {className: "search_right", id: "goHome"}, 
+						"取消"
+					), 
+				  	React.createElement("ul", {className: "search_list"}, 
+				  		this.state.li_res
+				  	)
+				)
+			)
+		},
+		componentDidMount:function(){
+			var that=this;
+			$("#goHome").click(function(){
+	//			console.log("eeeeee");
+				if(that.props.type=="home"){
+					$("#footer ul li").eq(0).trigger("click")
+					var Home=__webpack_require__(183);
+					var HomeHeader=__webpack_require__(186);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(HomeHeader, null),document.getElementById("header"));
+					$("#footer").show();
+					$("#header").hide();
+				}else if(that.props.type=="kind"){
+					$("#footer ul li").eq(1).trigger("click")
+					var Kind=__webpack_require__(187);
+					var KindHeader=__webpack_require__(189);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(Kind, null),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(KindHeader, null),document.getElementById("header"));
+					$("#footer").show();
+					$("#header").show();
+				}else if(that.props.list=="list"){
+					var List=__webpack_require__(185);
+					var ListHeader=__webpack_require__(188);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(List, {list: "list"}),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(ListHeader, null),document.getElementById("header"));
+					$("#header").hide();
+					$("#footer").hide();
+				}else if(that.props.kind=="kind"){
+					var List=__webpack_require__(185);
+					var ListHeader=__webpack_require__(188);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(List, {kind: "kind"}),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(ListHeader, {kind: "kind"}),document.getElementById("header"));
+					$("#header").hide();
+					$("#footer").hide();
+				}
+				
+			});
+	//===========改变input框里的内容显示搜索列表=======================================		
+			$(".search_name").on("input",function(){
+				
+				if($(this).val()!=""){
+					var url_interface = that.state.url_interface;
+					var goods_name = $(this).val();
+					$.ajax({
+						type:"get",
+						url:"http://"+url_interface+"/sopa/goods/get_search_name",
+						async:false,
+						data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',goods_name:goods_name},
+						success:function(data){
+							console.log(data);
+							var arr_li=[];
+							if(data.state == 1){
+								for(var i = 0 ; i < data.result.length ; i++){
+									arr_li.push(React.createElement("li", {key: i, className: "click_li", "data-id": data.result[i].cat_id}, data.result[i].goods_name))			
+								}
+							}
+							that.setState({
+								li_res:arr_li
+							})
+						}
+					});
+					$(".search_list").css("display","block");
+				}else{
+					$(".search_list").css("display","none");
+				}
+				
+				
+			})
+		},
+		componentDidUpdate:function(){
+			var that=this;
+			var type=that.props.type;
+			var list=that.props.list;
+			var kind=that.props.kind;
+			$(".click_li").click(function(){
+				var id=$(this).attr("data-id");
+				if(type=="home"){
+					var List=__webpack_require__(185);
+					var ListHeader=__webpack_require__(188);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(List, {list: "list", id: id}),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(ListHeader, {list: "list", id: id}),document.getElementById("header"));
+					$("#header").hide();
+					$("#footer").hide();	
+				}else if(type=="kind"){
+					var List=__webpack_require__(185);
+					var ListHeader=__webpack_require__(188);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(List, {kind: "kind", id: id}),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(ListHeader, {kind: "kind", id: id}),document.getElementById("header"));
+					$("#header").hide();
+					$("#footer").hide();
+				}else if(list=="list"){
+					var List=__webpack_require__(185);
+					var ListHeader=__webpack_require__(188);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(List, {list: "list", id: id}),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(ListHeader, {list: "list", id: id}),document.getElementById("header"));
+					$("#header").hide();
+					$("#footer").hide();
+				}else if(kind=="kind"){
+					var List=__webpack_require__(185);
+					var ListHeader=__webpack_require__(188);
+					ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+					ReactDOM.render(React.createElement(List, {kind: "kind", id: id}),document.getElementById("content"));
+					ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+					ReactDOM.render(React.createElement(ListHeader, {kind: "kind", id: id}),document.getElementById("header"));
+					$("#header").hide();
+					$("#footer").hide();
+				}
+				
+				
+				
+				
+			})
+		}
+	});
+	module.exports=SearchHeader;
+
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	//var ProList=require("./ProList");
+	var XinWen=React.createClass({displayName: "XinWen",
+		getInitialState:function(){
+			return{
+				kindList:""
+			}
+		},
+		componentWillMount:function(){
+			var that=this;
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "xinWenContent"}, 
+					React.createElement("ul", {className: "newsList"}, 
+						React.createElement("li", {"data-type": "xinwen"}, 
+							React.createElement("div", {className: "nl_newsLogo"}, 
+								React.createElement("div", {className: "nln_text"}, "通知")
+							), 
+							React.createElement("div", {className: "nl_newsMain"}, 
+								React.createElement("div", {className: "nln_title"}, 
+									React.createElement("div", {className: "nlnt_h3"}, "这是新闻标题"), 
+									React.createElement("div", {className: "nlnt_time"}, "12:30")
+								), 
+								React.createElement("div", {className: "nln_maintxt"}, 
+									"这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容"
+								)
+							)
+						), 
+						React.createElement("li", {"data-type": "xinwen"}, 
+							React.createElement("div", {className: "nl_newsLogo"}, 
+								React.createElement("div", {className: "nln_text"}, "通知")
+							), 
+							React.createElement("div", {className: "nl_newsMain"}, 
+								React.createElement("div", {className: "nln_title"}, 
+									React.createElement("h3", {className: "nlnt_h3"}, "这是新闻标题"), 
+									React.createElement("div", {className: "nlnt_time"}, "12:30")
+								), 
+								React.createElement("div", {className: "nln_maintxt"}, 
+									"这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容这是消息内容"
+								)
+							)
+						)
+					)
+				)
+				
+			)
+		},
+		componentDidMount:function(){
+			$(".newsList li").click(function(){
+				var type=$(this).attr("data-type");
+				var XinWenDetail=__webpack_require__(260);
+				var XinWenDetailHeader=__webpack_require__(261);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(XinWenDetail, null),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(XinWenDetailHeader, {type: type}),document.getElementById("header"));
+				$("#footer").hide();
+				
+			})
+			
+		},
+		componentDidUpdate:function(){
+
+			
+			
+		}
+	});
+	module.exports=XinWen;
+
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	//var ProList=require("./ProList");
+	var XinWenDetail=React.createClass({displayName: "XinWenDetail",
+		getInitialState:function(){
+			return{
+				kindList:""
+			}
+		},
+		componentWillMount:function(){
+			var that=this;
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "xinWenDetailContent"}, 
+					React.createElement("div", {className: "title"}, 
+						"“天采之音 相约未来”2017广告人创新论坛郑州举行"
+					), 
+					React.createElement("div", {className: "detail_time"}, 
+						React.createElement("span", null, "2017年01月16日14:42  "), 
+						React.createElement("span", null, "来源：人民网-河南频道")
+					), 
+					React.createElement("div", {className: "detail_img"}, 
+						React.createElement("img", {src: "img/xinwen_detail_03.jpg"})
+					), 
+					React.createElement("p", null, 
+						"人民网郑州1月16日电（智泓）2017广告业将会有什么新变化？" + " " +
+						"2016年的广告业又有哪些“可圈可点”？" + " " +
+						"未来，广告业将会面临什么样的机遇与挑战？……1月15日，" + " " +
+						"“天采之音，相约未来”2017广告人创新论坛郑州举行。"
+					), 
+					React.createElement("p", null, 
+						"郑州大学美术学院柯方明、河南标识行业协会会长王鹏、河南广告传媒业商会会长刘延坤等众多河南广告业大咖，" + " " +
+						"亮相论坛并发言。"
+					), 
+					React.createElement("p", null, 
+						"围绕广告业的过去和未来，论坛一致认为，为顺应文化体制改革和媒体融合大趋势，" + " " +
+						"探索广告行业发展路径，打造广告人商城和天采广告商城双平台战略，" + " " +
+						"结合B2B、B2C、O2O与一体全新B2B2B2C电商生态产业链模式，是大势所趋；“站点—供货—入驻商家—区域配送”四位一体的结合思路，" + " " +
+						"形成完整电商生态模式，" + " " +
+						"填补了目前国内广告行业电商平台空白，成为广告行业“淘宝网”。"
+					)
+					
+				)
+				
+			)
+		},
+		componentDidMount:function(){
+			
+			
+		},
+		componentDidUpdate:function(){
+
+			
+			
+		}
+	});
+	module.exports=XinWenDetail;
+
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var XinWenDetailHeader=React.createClass({displayName: "XinWenDetailHeader",
+		backHandel:function(){
+	//		console.log("222"+this.props.type);
+	//		var type=this.props.type;
+	//		console.log("11"+type);
+			if(this.props.type=="xinwen"){
+				var XinWen=__webpack_require__(259);
+				var XinWenHeader=__webpack_require__(262);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(XinWen, {type: "home"}),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(XinWenHeader, {type: "home"}),document.getElementById("header"));
+				$("#footer").hide();
+			}
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "xinWenDetailHeader"}, 
+					React.createElement("div", {className: "left_news", id: "goBack", onClick: this.backHandel, "data-type": "newsCenter"}, 
+						React.createElement("img", {src: "img/back.png"})
+					), 
+					React.createElement("div", {className: "center_news"}, 
+						"新闻详情"
+					)
+
+				)
+			)
+		},
+		componentDidMount:function(){
+	//		$("#goBack").click(function(){
+	////			console.log("eeeeee");
+	//			$("#footer ul li").eq(0).trigger("click")
+	//			var Home=require("./Home");
+	//			var HomeHeader=require("./HomeHeader");
+	//			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+	//			ReactDOM.render(<Home />,document.getElementById("content"));
+	//			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+	//			ReactDOM.render(<HomeHeader />,document.getElementById("header"));
+	//			$("#header").show();
+	//			$("#footer").show();
+	//		});
+			
+		}
+	});
+	module.exports=XinWenDetailHeader;
+
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React=__webpack_require__(1);
+	var ReactDOM=__webpack_require__(36);
+	var XinWenHeader=React.createClass({displayName: "XinWenHeader",
+		backHandel:function(){
+	//		console.log("222"+this.props.type);
+	//		var type=this.props.type;
+	//		console.log("11"+type);
+			if(this.props.type=="home"){
+				var Home=__webpack_require__(183);
+				var HomeHeader=__webpack_require__(186);
+				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+				ReactDOM.render(React.createElement(Home, null),document.getElementById("content"));
+				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+				ReactDOM.render(React.createElement(HomeHeader, null),document.getElementById("header"));
+				$("#footer").show();
+			}
+			
+		},
+		render:function(){
+			return(
+				React.createElement("div", {className: "xinWenHeader"}, 
+					React.createElement("div", {className: "left_news", id: "goBack", onClick: this.backHandel, "data-type": "newsCenter"}, 
+						React.createElement("img", {src: "img/back.png"})
+					), 
+					React.createElement("div", {className: "center_news"}, 
+						"新闻中心"
+					)
+
+				)
+			)
+		},
+		componentDidMount:function(){
+	//		$("#goBack").click(function(){
+	////			console.log("eeeeee");
+	//			$("#footer ul li").eq(0).trigger("click")
+	//			var Home=require("./Home");
+	//			var HomeHeader=require("./HomeHeader");
+	//			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+	//			ReactDOM.render(<Home />,document.getElementById("content"));
+	//			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+	//			ReactDOM.render(<HomeHeader />,document.getElementById("header"));
+	//			$("#header").show();
+	//			$("#footer").show();
+	//		});
+			
+		}
+	});
+	module.exports=XinWenHeader;
 
 
 /***/ }

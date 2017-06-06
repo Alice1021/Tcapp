@@ -182,19 +182,19 @@ var MoreEval=React.createClass({
 		});
 		$(".messageBox li").click(function(){
 			var index=$(this).index();
-			var list=that.props.list;
-			var kind=that.props.kind;
+			var list2=that.props.list;
+			var kind2=that.props.kind;
 			var type1=that.props.type;
-			var cart=that.props.cart;
-			var collect=that.props.collect;
-			var myeval=that.props.myeval;
+			var cart3=that.props.cart;
+			var collect2=that.props.collect;
+			var myeval2=that.props.myeval;
 			if(index==0){
 				var NewsCenter=require("./NewsCenter");
 				var NewsCenterHeader=require("./NewsCenterHeader");
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(<NewsCenter type1={type1} list={list} kind={kind} cart={cart} collect={collect} myeval={myeval}/>,document.getElementById("content"));
+				ReactDOM.render(<NewsCenter type1={type1} list2={list2} kind2={kind2} cart3={cart3} collect2={collect2} myeval2={myeval2}/>,document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(<NewsCenterHeader type1={type1} list={list} kind={kind} cart={cart} collect={collect} myeval={myeval}/>,document.getElementById("header"));
+				ReactDOM.render(<NewsCenterHeader type1={type1} list2={list2} kind2={kind2} cart3={cart3} collect2={collect2} myeval2={myeval2}/>,document.getElementById("header"));
 				$("#header").show();
 				$("#footer").hide();
 			}else if(index==1){

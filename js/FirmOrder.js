@@ -172,17 +172,27 @@ var FirmOrder=React.createClass({
 		)
 	},
 	componentDidMount:function(){
-		$(".newsList li").click(function(){
-			var type=$(this).attr("data-type");
-			var XinWenDetail=require("./XinWenDetail");
-			var XinWenDetailHeader=require("./XinWenDetailHeader");
+		var that=this;
+		
+//=========更改收货地址
+		$(".delivery_address").click(function(){
+			var kind=that.props.kind; 
+			var type=that.props.type;
+			var list=that.props.list;
+			var collect=that.props.collect;
+			var cart=that.props.cart;
+			var cart1=that.props.cart1;
+			var myeval=that.props.myeval;
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-			ReactDOM.render(<XinWenDetail />,document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1} myeval={myeval}/>,document.getElementById("content"));
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-			ReactDOM.render(<XinWenDetailHeader type={type} />,document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1} myeval={myeval}/>,document.getElementById("header"));
+			$("#header").hide();
 			$("#footer").hide();
-			
 		})
+		
 		
 	},
 	componentDidUpdate:function(){

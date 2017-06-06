@@ -244,12 +244,6 @@ body {
         @include only_direction;
         background: #e6e6e6;
         #header {
-            width: 100%;
-            height: 0.88rem;
-            .homeHeader {
-                background: #f23025;
-//              padding-top: 0.4rem;
-            }
             .kindHeader,
             .searchHeader,
             .registerHeader,
@@ -260,6 +254,8 @@ body {
             .phoneRegisterHeader,
             .xinWenDetailHeader,
             .firmOrderHeader {
+                width: 100%;
+                height: 0.88rem;
                 background: #fff;
             }
             .firmOrderHeader{
@@ -280,11 +276,13 @@ body {
                 padding-left: 0.3rem;
             }
             .userHeader {
+                width: 100%;
+                height: 0.88rem;
                 background: #f5a100;
             }
             .searchHeader{
                 @include only_display;
-                height: 100%;
+                height: 0.88rem;
                 position: relative;
                 .search_left {
                     background: #e6e6e6;
@@ -378,7 +376,6 @@ body {
                     }
                 }
             }
-            .homeHeader,
             .kindHeader,
             .userHeader,
             .newsCenterHeader,
@@ -393,7 +390,7 @@ body {
             .setPasswordHeader,
             .phoneRegisterHeader {
                 width: 100%;
-                height: 100%;
+                height: 0.88rem;
                 @include only_display;
                 .left {
                     width: 1.45rem;
@@ -537,9 +534,6 @@ body {
                         }
                     }
                 }
-//              .search_left {
-//                  border-radius: 0.3rem;
-//              }
                 .left_news,
                 .left_order {
                     width: 0.7rem;
@@ -588,7 +582,7 @@ body {
             }
             .loginHeader {
                 width: 100%;
-                height: 100%;
+                height: 0.88rem;
                 .left_login {
                     width: 1.45rem;
                     height: 100%;
@@ -616,7 +610,7 @@ body {
             }
             .refundHeader {
                 width: 100%;
-                height: 100%;
+                height: 0.88rem;
                 background: #fff;
                 .myOrder_header_title {
                     width: 100%;
@@ -723,9 +717,105 @@ body {
             .homeContent {
                 width: 100%;
                 height: 100%;
+                .homeHeader{
+                    width: 100%;
+                    height: 0.88rem;
+                    box-shadow: none; 
+                    background: rgba(255,255,255,0);
+                    transition: background 3s;
+//                        Firefox 4 
+                    -moz-transition:background 3s;
+//                      Safari and Chrome 
+                    -webkit-transition:background 3s;
+//                      Opera 
+                    -o-transition:background 3s;
+                    position: fixed;
+                    padding-top: 0.28rem;
+                    z-index: 999;
+                    @include only_display;
+                    .left {
+                        width: 1.45rem;
+                        height: 100%;
+                        .map {
+                            width: 1.35rem;
+                            height: 0.32rem;
+                            float: right;
+                            
+                            @include only_display;
+                            .left {
+                                width: 0.5rem;
+                                height: 0.5rem;
+                                margin-top: 0.2rem;
+                                img{
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                            .right {
+                                flex: 1;
+                                margin-top: 0.28rem;
+                                font-size: 0.23rem;
+                                @include only_display;
+                                @include only_align;
+                                color: #fff;
+                            }
+                        }
+                    }
+                    .center{
+                        @include only_flex;
+                        width: 100%;
+                        height: 0.56rem;
+                        background: rgba(255, 245, 247, 0.6);
+                        border-radius: 0.05rem;
+                        @include only_display;
+                        margin-top: 0.15rem;
+                        .search {
+                            height: 100%;
+                            width: 0.52rem;
+                        }
+                        .input {
+                            @include only_flex;
+                            input {
+                                width: 100%;
+                                border: 0;
+                                background: none;
+                                color: #656565;
+                                font-size: 0.24rem;
+                                outline: none;
+                                padding-top: 0.1rem;
+                            }
+                        }
+                        .select {
+                            height: 100%;
+                            width: 0.52rem;
+                            display: none;
+                            img {
+                                width: 70%;
+                                height: 70%;
+                            }
+                        }
+                    }
+                    .right {
+                        width: 1.0rem;
+                        height: 100%;
+                        @include only_display;
+                        @include only_justify;
+                        @include only_align;
+                        .img {
+                            width: 0.42rem;
+                            height: 0.4rem;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                    
+                    
+                }
                 #homeSwiper {
                     width: 100%;
-                    height: 2.97rem;
+                    height: 3.37rem;
                     .home1_wrapper {
                         width: 100%;
                         height: 100%;
@@ -1677,9 +1767,9 @@ body {
                         }
                     }
                     .goodsEval{
-                        min-height: 3.25rem;
+                        min-height: 2.0rem;
                         height: auto!important;
-                        height: 3.25rem;
+                        height: 2.0rem;
                         background: #fff;
                         padding-left: 0.3rem;
                         padding-right: 0.3rem;
@@ -1720,6 +1810,7 @@ body {
                             line-height: 0.44rem;
                             margin-top: 0.37rem;
                             margin-left: 2.73rem;
+                            margin-bottom: 0.3rem;
                             position: relative;
                             &:after {
                                 content: "";
@@ -1857,12 +1948,13 @@ body {
                         padding-right: 0.3rem;
                         display: none;
                         li{
+                            margin-bottom:0.3rem; 
                             &:nth-child(1){
                                 width: 100%;
                                 .goodsDetail_photoDetail{
-                                    min-height: 2.6rem;
-                                    height: auto!important;
-                                    height: 2.6rem;
+//                                  min-height: 2.6rem;
+//                                  height: auto!important;
+//                                  height: 2.6rem;
                                     width: 100%;
                                     margin-top: 0.1rem;
                                     background: #fff;
@@ -3671,7 +3763,7 @@ body {
                 }
                 .cartMains{
                     width: 100%;
-                    margin-top: 0.89rem;
+                    margin-top: 0.99rem;
                     margin-bottom: 0.98rem;
                     .cart_header {
                         height: 0.98rem;

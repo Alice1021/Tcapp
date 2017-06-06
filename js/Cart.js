@@ -15,7 +15,6 @@ var Cart=React.createClass({
 		var user 		  = that.state.user;
 		var url_interface = that.state.url_interface;
 		var shop_id       = that.state.shop_id;
-
 		$.ajax({
 			type:"get",
 			url:"http://"+url_interface+"/sopa/cart/cartList",
@@ -36,7 +35,7 @@ var Cart=React.createClass({
 							check_length++;
 							var selected_img ="img/checked.png";
 						}
-						cartList_arr.push(<li key={i} className="li_cart_id" data-cart_id={result[i].id}>
+						cartList_arr.push(<li key={i} className="li_cart_id" data-cart_id={result[i].id} data-goods_id={result[i].goods_id}>
 								  			<div className="cc_main">
 								  				<div className="ccm_check">
 													<div className="ccmc_img">
@@ -306,17 +305,7 @@ var Cart=React.createClass({
 			$(".cartFooter_right span").eq(0).html(allNumber)
 		});
 
-//=====================点击每个商品进入详情======================================================	
-		$(".ccm_conent").click(function(){
-			var Detail=require("./Detail");
-			var DetailHeader=require("./DetailHeader");
-			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-			ReactDOM.render(<Detail cart="cart"/>,document.getElementById("content"));
-			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-			ReactDOM.render(<DetailHeader cart="cart"/>,document.getElementById("header"));
-			$("#footer").hide();
-			$("#header").hide();
-		});
+
 
 
 //=====================点击空购物车去抢购=====================================	
@@ -338,7 +327,6 @@ var Cart=React.createClass({
 //=====================================点击加减按钮加减物品
 		$(".eachGoods_add").click(function(e){
 			e.stopImmediatePropagation();
-//			alert("ccc")
 			var b		= $(this).prev(".eachGoods_number").html();
 			var a		= parseFloat(b);
 			var a1		= a+1;
@@ -361,7 +349,6 @@ var Cart=React.createClass({
 		})
 		$(".eachGoods_sub").click(function(e){
 			e.stopImmediatePropagation();
-//			alert("ddd")
 			var b = $(this).next(".eachGoods_number").html();
 			var a = parseFloat(b);
 			var a1 = a - 1;
@@ -392,6 +379,19 @@ var Cart=React.createClass({
 //				
 //			}
 	});
+//=====================点击每个商品进入详情======================================================	
+		$(".ccm_conent").click(function(){
+			var id=$(this).parents("li").attr("data-cart_id");
+			var goods_id=$(this).parents("li").attr("data-goods_id");
+			var Detail=require("./Detail");
+			var DetailHeader=require("./DetailHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<Detail cart="cart" id={id} goods_id={goods_id}/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<DetailHeader cart="cart" id={id} goods_id={goods_id}/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").hide();
+		});	
 //==================点击每个商品，改变选中状态===========================================	
 		$(".ccm_check").click(function(){
 			var $img=$(this).find(".ccmc_img").find("img").attr("src")=="img/534.png"?"img/checked.png":"img/534.png";

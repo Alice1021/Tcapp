@@ -111,14 +111,14 @@ var MineZiliao=React.createClass({
 		});
 		$(".messageBox li").click(function(){
 			var index=$(this).index();
-			var type=$(this).attr("data-type");
+			var type1=$(this).attr("data-type");
 			if(index==0){
 				var NewsCenter=require("./NewsCenter");
 				var NewsCenterHeader=require("./NewsCenterHeader");
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(<NewsCenter type={type} />,document.getElementById("content"));
+				ReactDOM.render(<NewsCenter type1={type1} />,document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(<NewsCenterHeader type={type} />,document.getElementById("header"));
+				ReactDOM.render(<NewsCenterHeader type1={type1} />,document.getElementById("header"));
 				$("#header").show();
 				$("#footer").hide();
 			}else if(index==1){

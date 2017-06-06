@@ -4,12 +4,14 @@ var ReactDOM=require("react-dom");
 var EditorAddress=React.createClass({
 	getInitialState:function(){
 		return{
-			kindList:""
+			kindList:"",
+			user:JSON.parse(localStorage.getItem('users')),
+			shop_id:40,
+			url_interface:"m.chepc.cn"
 		}
 	},
 	backHandel:function(){
-		console.log(this.props.type)
-		if(this.props.type=="changeaddress"){
+		if(this.props.type=="mineziliao"){
 			var ChangeAddress=require("./ChangeAddress");
 			var ChangeAddressHeader=require("./ChangeAddressHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -18,11 +20,119 @@ var EditorAddress=React.createClass({
 			ReactDOM.render(<ChangeAddressHeader type="mineziliao" />,document.getElementById("header"));
 			$("#header").hide();
 			$("#footer").hide();
+		}else if(this.props.type=="home"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress type="home" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader type="home" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.list=="list"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress list="list" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader list="list" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.collect=="collect"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress collect="collect" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader collect="collect" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.kind=="kind"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress kind="kind" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader kind="kind" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart=="cart"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress cart="cart" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader cart="cart" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart1=="cart"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress cart1="cart" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader cart1="cart" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.myeval=="myeval"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress myeval="myeval" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader myeval="myeval" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
 		}
 	},
 	componentWillMount:function(){
-		var that=this;
-		
+		var that	   	  = this;
+		var address_id 	  = that.props.address_id;
+		var url_interface = that.state.url_interface;
+		console.log(address_id+'-->'+url_interface)
+		$.ajax({
+			type:"get",
+			url:"http://"+url_interface+"/sopa/User/addressbyid",
+			data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',address_id:address_id},
+			success:function(data){
+					console.log(data);
+				if(data.status == 1){
+					console.log(data.result);
+					var res = data.result;
+					var consignee = res.consignee;
+					var mobile    = res.mobile;
+					console.log(mobile);
+					var content = [];
+				content.push(<ul className="editorAddress_main" key={Math.random}>
+								<li>
+									<span>收货人</span>
+									<input className="consignee" type="text"/>
+								</li>
+								<li>
+									<span>联系电话</span>
+									<input className="mobile" type="text"/>
+								</li>
+								<li>
+									<span>所在地址</span>
+									<span>{res.province_name} {res.city_name} {res.district_name}</span>
+									<span><img src="img/set_next.png"/></span>
+									<input className="address_id" type="hidden" value={address_id} />
+									<input className="province" type="hidden" value={res.province} />
+									<input className="city" type="hidden" value={res.city} />
+									<input className="district" type="hidden" value={res.district} />
+								</li>
+								<textarea className="address">{res.address}</textarea>
+								<App />
+							 </ul>);
+							 
+				}
+				that.setState({
+					address_res:content,
+					consignee:consignee,
+					mobile:mobile
+				})
+			}
+		});
 	},
 	render:function(){
 		return(
@@ -73,25 +183,7 @@ var EditorAddress=React.createClass({
 						</ul>
 					</div>
 				</div>
-				<ul className="editorAddress_main">
-					<li>
-						<span>收货人</span>
-						<input type="text" />
-					</li>
-					<li>
-						<span>联系电话</span>
-						<input type="text" />
-					</li>
-					<li>
-						<span>所在地址</span>
-						<span>河南省郑州市管城回族区</span>
-						<span><img src="img/set_next.png"/></span>
-					</li>
-					<textarea placeholder="请输入详细地址"></textarea>
-					<App />
-					
-					
-				</ul>
+				{this.state.address_res}
 				<div className="chance_style">
 					<div className="left">删除</div>
 					<div className="right">保存</div>
@@ -101,11 +193,7 @@ var EditorAddress=React.createClass({
 		)
 	},
 	componentDidMount:function(){
-		$(".editorAddress_main").find("li").eq(0).find("input").val("闻卓")
-		$(".editorAddress_main").find("li").eq(1).find("input").val("18888888888")
-		
-		
-		
+		var that=this;
 		$("#goMessageBox").click(function(){
 			$(".messageBox").css("display","block")
 		});
@@ -114,14 +202,20 @@ var EditorAddress=React.createClass({
 		});
 		$(".messageBox li").click(function(){
 			var index=$(this).index();
-			var type=$(this).attr("data-type");
+			var kind5=that.props.kind; 
+			var type5=that.props.type;
+			var list5=that.props.list;
+			var collect5=that.props.collect;
+			var cart5=that.props.cart;
+			var cart15=that.props.cart1;
+			var myeval5=that.props.myeval;
 			if(index==0){
 				var NewsCenter=require("./NewsCenter");
 				var NewsCenterHeader=require("./NewsCenterHeader");
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(<NewsCenter type={type} />,document.getElementById("content"));
+				ReactDOM.render(<NewsCenter kind5={kind5} type5={type5} list5={list5} collect5={collect5} cart5={cart5} cart15={cart15} myeval5={myeval5} />,document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(<NewsCenterHeader type={type} />,document.getElementById("header"));
+				ReactDOM.render(<NewsCenterHeader kind5={kind5} type5={type5} list5={list5} collect5={collect5} cart5={cart5} cart15={cart15} myeval5={myeval5}  />,document.getElementById("header"));
 				$("#header").show();
 				$("#footer").hide();
 			}else if(index==1){
@@ -131,11 +225,19 @@ var EditorAddress=React.createClass({
 				ReactDOM.render(<Home type={type} />,document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(<HomeHeader type={type} />,document.getElementById("header"));
-				$("#header").show();
 				$("#footer").show();
 				$("#footer ul li").eq(0).trigger("click");
 			}
 		});
+
+		
+	},
+	componentDidUpdate:function(){
+        var that 		  = this;
+		var url_interface = that.state.url_interface;
+		
+		$(".editorAddress_main").find("li").eq(0).find("input").val(that.state.consignee);
+		$(".editorAddress_main").find("li").eq(1).find("input").val(that.state.mobile);
 //==========点击注册地址获取焦点事件===========================
 		$(".editorAddress_main li").eq(2).on("click",function(){
 			$(".area_ctrl").css("display","block");
@@ -148,12 +250,44 @@ var EditorAddress=React.createClass({
 			$(".area_ctrl").removeClass("slideInUp");
 			$(".chance_style").css("display","flex");
 		});
-		
-	},
-	componentDidUpdate:function(){
-
-		
-		
+//点击保存修改地址信息
+     	$(".right").click(function(){
+     		var user       = that.state.user;
+     		var address_id = $('.address_id').val();
+     		var mobile     = $('.mobile').val();
+     		var consignee  = $('.consignee').val();
+     		var province   = $('.province').val();
+     		var city       = $('.city').val();
+     		var district   = $('.district').val();
+     		var address    = $('.address').val();
+     		var type       = 'edit';
+			$.ajax({
+				type:"post",
+				url:"http://"+url_interface+"/sopa/User/addOreditAddress",
+				data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',address_id:address_id,user_id:user.user_id,mobile:mobile,consignee:consignee,province:province,city:city,district:district,address:address,type:type},
+				success:function(data){//修改成功后返回地址列表
+					if(data.status == 1){
+						that.backHandel();
+					}
+				}
+			});
+     	});
+//删除按钮
+		$(".left").click(function(){
+     		var user       = that.state.user;
+     		var address_id = $('.address_id').val();
+     		$.ajax({
+				type:"get",
+				url:"http://"+url_interface+"/sopa/User/delAddress",
+				data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',address_id:address_id,user_id:user.user_id},
+				success:function(data){//删除后返回地址列表
+					if(data.status == 1){//删除成功
+						that.backHandel();
+					}
+				}
+			});
+		});
+			
 	}
 });
 /**
@@ -173,20 +307,33 @@ var EditorAddress=React.createClass({
 		        var address = data[pIndex].name
 		            + data[pIndex].city[cIndex].name
 		            + data[pIndex].city[cIndex].area[aIndex].name;
-				var ids=data[pIndex].id+"----------"
-		            + data[pIndex].city[cIndex].id+"-----------"
-		            + data[pIndex].city[cIndex].area[aIndex].id;
+//				var ids=data[pIndex].id+"----------"
+//		            + data[pIndex].city[cIndex].id+"-----------"
+//		            + data[pIndex].city[cIndex].area[aIndex].id;
+				var p_id=data[pIndex].id;
+				var c_id=data[pIndex].city[cIndex].id;
+				var d_id=data[pIndex].city[cIndex].area[aIndex].id;
 		        this.address = address;
-		        this.ids=ids;
+//		        this.ids=ids;
+				this.p_id=p_id;
+				this.c_id=c_id;
+				this.d_id=d_id;
 		       //与渲染无关的数据  直接存在this对象里  如果存在State里面会导致页面脏渲染，卡顿
 		    },
 		   //===点击地址栏的确定按钮 
 		    onClick: function () {
-		        var ans = this.address;
-		        var ids='选择的对应的id'+this.ids;
-		        alert(ans);
-		        alert(ids);
-		        $(".editorAddress_main li").eq(2).find("span").eq(1).html(ans)
+		        var ans  = this.address;
+		        var p_id = this.p_id;
+		        var c_id = this.c_id;
+		        var d_id = this.d_id;
+		        console.log(p_id+'-'+c_id+'-'+d_id)
+//		        var ids='选择的对应的id'+this.ids;
+//		        alert(ans);
+//		        alert(ids);
+		        $(".editorAddress_main li").eq(2).find("span").eq(1).html(ans);
+		        $(".province").val(p_id);
+		        $(".city").val(c_id);
+		        $(".district").val(d_id);
 		        $(".area_ctrl").css("display","none");
 				$(".area_ctrl").removeClass("slideInUp");
 				$(".chance_style").css("display","flex");

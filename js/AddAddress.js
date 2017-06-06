@@ -8,14 +8,76 @@ var AddAddress=React.createClass({
 		}
 	},
 	backHandel:function(){
-		console.log(this.props.type)
-		if(this.props.type=="changeaddress"){
+		if(this.props.type=="mineziliao"){
 			var ChangeAddress=require("./ChangeAddress");
 			var ChangeAddressHeader=require("./ChangeAddressHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
 			ReactDOM.render(<ChangeAddress type="mineziliao" />,document.getElementById("content"));
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 			ReactDOM.render(<ChangeAddressHeader type="mineziliao" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type=="home"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress type="home" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader type="home" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.list=="list"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress list="list" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader list="list" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.collect=="collect"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress collect="collect" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader collect="collect" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.kind=="kind"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress kind="kind" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader kind="kind" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart=="cart"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress cart="cart" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader cart="cart" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart1=="cart"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress cart1="cart" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader cart1="cart" />,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.myeval=="myeval"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress myeval="myeval" />,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader myeval="myeval" />,document.getElementById("header"));
 			$("#header").hide();
 			$("#footer").hide();
 		}
@@ -118,14 +180,20 @@ var AddAddress=React.createClass({
 		});
 		$(".messageBox li").click(function(){
 			var index=$(this).index();
-			var type=$(this).attr("data-type");
+			var kind4=that.props.kind; 
+			var type4=that.props.type;
+			var list4=that.props.list;
+			var collect4=that.props.collect;
+			var cart4=that.props.cart;
+			var cart14=that.props.cart1;
+			var myeval4=that.props.myeval;
 			if(index==0){
 				var NewsCenter=require("./NewsCenter");
 				var NewsCenterHeader=require("./NewsCenterHeader");
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(<NewsCenter type={type} />,document.getElementById("content"));
+				ReactDOM.render(<NewsCenter kind4={kind4} type4={type4} list4={list4} collect4={collect4} cart4={cart4}  cart14={cart14} myeval4={myeval4}/>,document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(<NewsCenterHeader type={type} />,document.getElementById("header"));
+				ReactDOM.render(<NewsCenterHeader kind4={kind4} type4={type4} list4={list4} collect4={collect4} cart4={cart4}  cart14={cart14}  myeval4={myeval4}/>,document.getElementById("header"));
 				$("#header").show();
 				$("#footer").hide();
 			}else if(index==1){

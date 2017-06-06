@@ -21,6 +21,34 @@ var Home=React.createClass({
 	render:function(){
 		return(
 			<div className="homeContent">
+				<div className="homeHeader">
+					<div className="left">
+						<div className="map">
+							<div className="left">
+								<img src="img/icon_location.png"/>
+							</div>
+							<div className="right">
+								郑州市
+							</div>
+						</div>
+					</div>
+					<div className="center" id="goSearch"> 
+						<div className="search">
+							<img src="img/icon_search.png"/>
+						</div>
+						<div className="input">
+							<input type="text" placeholder="搜索天采商品与店铺" />
+						</div>
+						<div className="select" >
+							<img src="img/select.png"/>
+						</div>
+					</div>
+					<div className="right" id="goNewsCenter" data-type="home">
+						<div className="img">
+							<img src="img/icon_messages.png"/>
+						</div>
+					</div>
+				</div>
 			    <div className="swiper-container" id="homeSwiper">
 				    <div className="swiper-wrapper home1_wrapper">
 				        <div className="swiper-slide home1_slide">
@@ -130,12 +158,7 @@ var Home=React.createClass({
 					        <div className="swiper-slide notice_slide">
 					        	APP版本发布公告
 							</div>
-					        <div className="swiper-slide notice_slide">
-					        	1111111
-					        </div>
-					        <div className="swiper-slide notice_slide">
-					        	22222222
-					        </div>
+					        
 					    </div>
 					    
 					</div>
@@ -503,6 +526,63 @@ var Home=React.createClass({
 	},
 	componentDidMount:function(){
 		var that=this;
+//=====头部搜索栏的效果(上下滑动呈现不同的效果)
+		function getTopDistance() {
+			return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		};
+		document.addEventListener("touchmove",function(){
+			
+			var scrollTop = $("#content").scrollTop();
+			console.log(scrollTop);
+			if(scrollTop>114){
+				$(".homeHeader").css("background","#f8f8f8");
+				$(".map .left img").attr("src","img/home_dingwei1.png");
+				$(".map .right").css("color","#2b2b2b");
+				$(".homeHeader .center").css("background","#eeeded");
+				$(".homeHeader .center .search img").attr("src","img/home_search1.png");
+				$(".homeHeader .right img").attr("src","img/home_news1.png");
+			}else if(scrollTop<114){
+				$(".homeHeader").css("background","rgba(255, 255, 255, 0)");
+				$(".map .left img").attr("src","img/icon_location.png");
+				$(".map .right").css("color","#fff");
+				$(".homeHeader .center").css("background","rgba(255, 245, 247, 0.6)");
+				$(".homeHeader .center .search img").attr("src","img/icon_search.png");
+				$(".homeHeader .right img").attr("src","img/icon_messages.png");
+			}
+//			if(scrollTop>40){
+//				$(".goodsDetail_introductMain").css("display","block");
+//			}else{
+//				$(".goodsDetail_introductMain").css("display","none");
+//			}
+		});
+//=====点击搜索框		
+		$("#goSearch").on("click",function(){
+			var Search=require("./Search");
+			var SearchHeader=require("./SearchHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<Search type="home"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<SearchHeader type="home"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		});
+//==========删除小按钮,被隐藏了
+		$(".select").on("click",function(){
+			console.log("2222222")
+			$("")
+		});
+//==========点击消息图标,去消息中心		
+		$("#goNewsCenter").click(function(){
+			var type3=$(this).attr("data-type")
+			var NewsCenter=require("./NewsCenter");
+			var NewsCenterHeader=require("./NewsCenterHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<NewsCenter type3={type3}/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<NewsCenterHeader type3={type3} />,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		});
 //=======导航轮播====================		
 		var swiper = new Swiper(".swiper-container",{
 			"pagination":".swiper-pagination",
@@ -510,14 +590,18 @@ var Home=React.createClass({
 			loop:true,
 			autoplayDisableOnInteraction:false
 		});
-//=========新闻消息轮播=====================		
-		var swiper = new Swiper(".notice-container",{
-			"pagination":".swiper-pagination",
-			direction: 'vertical',
-			autoplay:3000,
-			loop:true,
-			autoplayDisableOnInteraction:false
-		});
+//=========新闻消息轮播=====================	
+		var a=0;
+		var array=new Array("APP版本发布公告","111","222","333");
+		setInterval(function(){
+		 	var b=$("#noticeSwiper .swiper-wrapper .swiper-slide");
+		 	if(a==array.length-1){
+		 		a=0;
+		 	}else{
+		 		a++;
+		 	}
+		 	b.html(array[a]);
+		},2000);
 //========通过首页小分类到列表=========================================		
 		$("#toList .ul1 li").click(function(){
 // 			var type=$(this).attr("data-type");

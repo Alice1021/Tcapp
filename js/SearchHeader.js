@@ -40,6 +40,7 @@ var SearchHeader=React.createClass({
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(<HomeHeader />,document.getElementById("header"));
 				$("#footer").show();
+				$("#header").hide();
 			}else if(that.props.type=="kind"){
 				$("#footer ul li").eq(1).trigger("click")
 				var Kind=require("./Kind");
@@ -49,6 +50,7 @@ var SearchHeader=React.createClass({
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 				ReactDOM.render(<KindHeader />,document.getElementById("header"));
 				$("#footer").show();
+				$("#header").show();
 			}else if(that.props.list=="list"){
 				var List=require("./List");
 				var ListHeader=require("./ListHeader");

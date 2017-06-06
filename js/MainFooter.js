@@ -34,7 +34,7 @@ var MainFooter=React.createClass({
 				ReactDOM.render(<HomeHeader/>,header);
 			    ReactDOM.unmountComponentAtNode(content);
 				ReactDOM.render(<Home/>,content);
-				$("#header").show();
+				$("#header").hide();
 				break;
 			case 1:
 				var Kind=require("./Kind");

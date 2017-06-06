@@ -458,15 +458,7 @@ var Detail=React.createClass({
 	componentDidMount:function(){
 		var that=this;
 
-//=========================上下滑动详情头部的效果================================		
-		/*$(".detailContent").swipeUp(function(){
-//			$(".detailHeader").addClass("beginChange");
-			console.log($(".goodsDetail_introduct").height())
-		})*/
-//		$(".detailContent").swipeDown(function(){
-//			$(".detailHeader").removeClass("beginChange");
-//		})
-		
+//=========================上下滑动详情头部的效果================================
 		function getTopDistance() {
 			return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 		}
@@ -493,7 +485,7 @@ var Detail=React.createClass({
 			}else{
 				$(".goodsDetail_introduct").removeClass("alreadyMove")
 			}
-			if(scrollTop>40){
+			if(scrollTop>8){
 				$(".goodsDetail_introductMain").css("display","block");
 			}else{
 				$(".goodsDetail_introductMain").css("display","none");

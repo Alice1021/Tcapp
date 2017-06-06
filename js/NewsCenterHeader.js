@@ -5,7 +5,7 @@ var NewsCenterHeader=React.createClass({
 //		console.log("222"+this.props.type);
 //		var type=this.props.type;
 //		console.log("11"+type);
-		if(this.props.type=="home"){
+		if(this.props.type3=="home"){
 			var Home=require("./Home");
 			var HomeHeader=require("./HomeHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -74,7 +74,7 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.render(<CollectHeader type="user"/>,document.getElementById("header"));
 			$("#footer").show();
 			$("#header").hide();
-		}else if(this.props.type=="mineziliao"){
+		}else if(this.props.type1=="mineziliao"){
 			var MineZiliao=require("./MineZiliao");
 			var MineZiliaoHeader=require("./MineZiliaoHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -160,7 +160,7 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.render(<MoreEvalHeader type="home"/>,document.getElementById("header"));
 			$("#footer").hide();
 			$("#header").hide();
-		}else if(this.props.list=="list"){
+		}else if(this.props.list2=="list"){
 			var MoreEval=require("./MoreEval");
 			var MoreEvalHeader=require("./MoreEvalHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -185,7 +185,7 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 			ReactDOM.render(<DetailHeader list="list"/>,document.getElementById("header"));
 			$("#header").hide();
-		}else if(this.props.kind=="kind"){
+		}else if(this.props.kind2=="kind"){
 			var MoreEval=require("./MoreEval");
 			var MoreEvalHeader=require("./MoreEvalHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -210,7 +210,7 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 			ReactDOM.render(<DetailHeader cart="cart"/>,document.getElementById("header"));
 			$("#header").hide();
-		}else if(this.props.cart=="cart"){
+		}else if(this.props.cart3=="cart"){
 			var MoreEval=require("./MoreEval");
 			var MoreEvalHeader=require("./MoreEvalHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -254,7 +254,7 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 			ReactDOM.render(<DetailHeader collect="collect"/>,document.getElementById("header"));
 			$("#header").hide(); 
-		}else if(this.props.collect=="collect"){
+		}else if(this.props.collect2=="collect"){
 			var MoreEval=require("./MoreEval");
 			var MoreEvalHeader=require("./MoreEvalHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -325,7 +325,7 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
 			ReactDOM.render(<DetailHeader myeval="myeval"/>,document.getElementById("header"));
 			$("#header").hide(); 
-		}else if(this.props.myeval=="myeval"){
+		}else if(this.props.myeval2=="myeval"){
 			var MoreEval=require("./MoreEval");
 			var MoreEvalHeader=require("./MoreEvalHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -343,6 +343,222 @@ var NewsCenterHeader=React.createClass({
 			ReactDOM.render(<OrderDetailHeader type="refund"/>,document.getElementById("header"));
 			$("#footer").hide();
 			$("#header").hide();
+		}else if(this.props.kind=="kind"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress kind="kind"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader kind="kind"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type=="home"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress type="home"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader type="home"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type=="mineziliao"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress type="mineziliao"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader type="mineziliao"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.list=="list"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress list="list"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader list="list"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.collect=="collect"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress collect="collect"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader collect="collect"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart=="cart"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress cart="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader cart="cart"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart1=="cart"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress cart1="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader cart1="cart"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.myeval=="myeval"){
+			var ChangeAddress=require("./ChangeAddress");
+			var ChangeAddressHeader=require("./ChangeAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<ChangeAddress myeval="myeval"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<ChangeAddressHeader myeval="myeval"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.kind4=="kind"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress kind="kind"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader kind="kind"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type4=="home"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress type="home"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader type="home"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type4=="mineziliao"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress type="mineziliao"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader type="mineziliao"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.list4=="list"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress list="list"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader list="list"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.collect4=="collect"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress collect="collect"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader collect="collect"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart4=="cart"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress cart="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader cart="cart"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart14=="cart"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress cart1="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader cart1="cart"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.myeval4=="myeval"){
+			var AddAddress=require("./AddAddress");
+			var AddAddressHeader=require("./AddAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<AddAddress myeval="myeval"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader myeval="myeval"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.kind5=="kind"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress kind="kind"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader kind="kind"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type5=="home"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress type="home"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader type="home"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.type5=="mineziliao"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress type="mineziliao"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader type="mineziliao"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.list5=="list"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress list="list"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader list="list"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.collect5=="collect"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress collect="collect"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader collect="collect"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart5=="cart"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress cart="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader cart="cart"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.cart15=="cart"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress cart1="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader cart1="cart"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
+		}else if(this.props.myeval5=="myeval"){
+			var EditorAddress=require("./EditorAddress");
+			var EditorAddressHeader=require("./EditorAddressHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<EditorAddress myeval="myeval"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader myeval="myeval"/>,document.getElementById("header"));
+			$("#header").hide();
+			$("#footer").hide();
 		}
 		
 	},

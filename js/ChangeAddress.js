@@ -21,6 +21,69 @@ var ChangeAddress=React.createClass({
 			ReactDOM.render(<MineZiliaoHeader type="user"/>,document.getElementById("header"));
 			$("#footer").hide();
 			$("#header").hide();
+		}else if(this.props.type=="home"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder type="home"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader type="home"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		}else if(this.props.list=="list"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder list="list"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader list="list"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		}else if(this.props.collect=="collect"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder collect="collect"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader collect="collect"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		}else if(this.props.kind=="kind"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder kind="kind"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader kind="kind"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		}else if(this.props.cart=="cart"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder cart="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader cart="cart"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		}else if(this.props.cart1=="cart"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder cart1="cart"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader cart1="cart"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
+		}else if(this.props.myeval=="myeval"){
+			var FirmOrder=require("./FirmOrder");
+			var FirmOrderHeader=require("./FirmOrderHeader");
+			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
+			ReactDOM.render(<FirmOrder myeval="myeval"/>,document.getElementById("content"));
+			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
+			ReactDOM.render(<FirmOrderHeader myeval="myeval"/>,document.getElementById("header"));
+			$("#footer").hide();
+			$("#header").show();
 		}
 	},
 	componentWillMount:function(){
@@ -168,14 +231,20 @@ var ChangeAddress=React.createClass({
 		});
 		$(".messageBox li").click(function(){
 			var index=$(this).index();
-			var type=$(this).attr("data-type");
+			var kind=that.props.kind; 
+			var type=that.props.type;
+			var list=that.props.list;
+			var collect=that.props.collect;
+			var cart=that.props.cart;
+			var cart1=that.props.cart1;
+			var myeval=that.props.myeval;
 			if(index==0){
 				var NewsCenter=require("./NewsCenter");
 				var NewsCenterHeader=require("./NewsCenterHeader");
 				ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-				ReactDOM.render(<NewsCenter type={type} />,document.getElementById("content"));
+				ReactDOM.render(<NewsCenter kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1} myeval={myeval}/>,document.getElementById("content"));
 				ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-				ReactDOM.render(<NewsCenterHeader type={type} />,document.getElementById("header"));
+				ReactDOM.render(<NewsCenterHeader kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1} myeval={myeval}/>,document.getElementById("header"));
 				$("#header").show();
 				$("#footer").hide();
 			}else if(index==1){
@@ -245,23 +314,38 @@ var ChangeAddress=React.createClass({
 		});
 //===========点击编辑 跳转到编辑地址===============================
 		$(".bianji").click(function(){
+			var address_id = $(this).parents('li').attr('data-address_id');
+			var type=that.props.type;
+			var kind=that.props.kind;
+			var list=that.props.list;
+			var collect=that.props.collect;
+			var cart=that.props.cart;
+			var cart1=that.props.cart1;
+			var myeval=that.props.myeval;
 			var EditorAddress=require("./EditorAddress");
 			var EditorAddressHeader=require("./EditorAddressHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-			ReactDOM.render(<EditorAddress type="changeaddress" />,document.getElementById("content"));
+			ReactDOM.render(<EditorAddress address_id={address_id} kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1} myeval={myeval}/>,document.getElementById("content"));
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-			ReactDOM.render(<EditorAddressHeader type="changeaddress" />,document.getElementById("header"));
+			ReactDOM.render(<EditorAddressHeader address_id={address_id} kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1} myeval={myeval}/>,document.getElementById("header"));
 			$("#header").hide();
 			$("#footer").hide();
 		});
 //=============点击新增收货地址跳转到这一页===============================		
 		$(".foot_address").click(function(){
+			var type=that.props.type;
+			var kind=that.props.kind;
+			var list=that.props.list;
+			var collect=that.props.collect;
+			var cart=that.props.cart;
+			var cart1=that.props.cart1;
+			var myeval=that.props.myeval;
 			var AddAddress=require("./AddAddress");
 			var AddAddressHeader=require("./AddAddressHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
-			ReactDOM.render(<AddAddress type="changeaddress" />,document.getElementById("content"));
+			ReactDOM.render(<AddAddress kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1}  myeval={myeval}/>,document.getElementById("content"));
 			ReactDOM.unmountComponentAtNode(document.getElementById("header"));
-			ReactDOM.render(<AddAddressHeader type="changeaddress" />,document.getElementById("header"));
+			ReactDOM.render(<AddAddressHeader kind={kind} type={type} list={list} collect={collect} cart={cart} cart1={cart1}  myeval={myeval}/>,document.getElementById("header"));
 			$("#header").hide();
 			$("#footer").hide();
 		})
