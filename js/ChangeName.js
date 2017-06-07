@@ -4,7 +4,10 @@ var ReactDOM=require("react-dom");
 var ChangeName=React.createClass({
 	getInitialState:function(){
 		return{
-			kindList:""
+			kindList:"",
+			user:JSON.parse(localStorage.getItem('users')),
+			shop_id:40,
+			url_interface:"m.chepc.cn"
 		}
 	},
 	backHandel:function(){
@@ -21,8 +24,16 @@ var ChangeName=React.createClass({
 		}
 	},
 	componentWillMount:function(){
-		var that=this;
-		
+		var that = this;
+		var user = that.state.user;
+		var nick = [];
+		nick.push(<div className="nicheng" key={Math.random}>
+						<span>昵称</span>
+						<input className="nickname" type="text" defaultValue={user.nickname}/>
+					</div>);
+		that.setState({
+			nick:nick
+		});
 	},
 	render:function(){
 		return(
@@ -74,10 +85,7 @@ var ChangeName=React.createClass({
 					</div>
 				</div>
 				<div className="changeName_main">
-					<div className="nicheng">
-						<span>昵称</span>
-						<input type="text" placeholder="请输入您的昵称" />
-					</div>
+					{this.state.nick}
 					<div className="queren">确认</div>
 				</div>
 			</div>
@@ -85,6 +93,7 @@ var ChangeName=React.createClass({
 		)
 	},
 	componentDidMount:function(){
+		var that = this;
 		$("#goMessageBox").click(function(){
 			$(".messageBox").css("display","block")
 		});
@@ -117,6 +126,21 @@ var ChangeName=React.createClass({
 		});
 //==============点击确认=======================================
 		$(".queren").click(function(){
+			var nickname 	  = $('.nickname').val();
+			var user     	  = that.state.user;
+			var url_interface = that.state.url_interface;
+			$.ajax({
+				type:"post",
+				url:"http://"+url_interface+"/sopa/User/update_nickname",
+				data:{tcggsc:'c2726d9cbd6f600f12d60352729060c3',user_id:user.user_id,nickname:nickname},
+				success:function(data){
+					if(data.status == 1){//修改昵称后重新存储用户信息
+						localStorage.removeItem('users');
+						var users = data.result;
+						localStorage.setItem('users',JSON.stringify(users));//储存用户信息  localStorage 只能存字符串
+					}
+				}
+			});
 			var MineZiliao=require("./MineZiliao");
 			var MineZiliaoHeader=require("./MineZiliaoHeader");
 			ReactDOM.unmountComponentAtNode(document.getElementById("content"));
@@ -129,8 +153,7 @@ var ChangeName=React.createClass({
 		})
 	},
 	componentDidUpdate:function(){
-
-		
+	    var that = this;
 		
 	}
 });
